@@ -1,0 +1,205 @@
+{
+	"categories": [
+		{
+			"uuid": "a1751616-1adf-4a70-ad7c-8b7f9add2f18",
+			"title": "Task",
+			"color": "70bafa"
+		},
+		{
+			"uuid": "519e9f9d-7a2a-4ed4-a627-ab6858184f2f",
+			"title": "Eventual",
+			"color": "0849ba"
+		},
+		{
+			"uuid": "6e988cbb-7604-481d-a30a-d8dc58383b36",
+			"title": "Important",
+			"color": "df5e00"
+		},
+		{
+			"uuid": "1dc654a7-9809-487c-a3a4-3f0b4a8331f4",
+			"title": "Urgent",
+			"color": "ff0000"
+		},
+		{
+			"uuid": "34cfc19f-d8da-48f8-9c3c-6c28fb5abcd5",
+			"title": "UI",
+			"color": "2bea15"
+		},
+		{
+			"uuid": "f1b7de75-15da-4dc1-9567-374deab9ed2b",
+			"title": "App Features",
+			"color": "8e00ef"
+		}
+	],
+	"stages": [
+		{
+			"uuid": "a2c36acd-f630-48ce-aef1-1ed9cfa3c594",
+			"title": "Todo",
+			"tasks": [
+				"4c16fae5-a250-4bd7-8068-6d1e00b73223",
+				"2c4d1366-2faf-4408-aff3-cab5e9bcf4b4",
+				"2bc026ba-b03e-4386-af7e-18f021e6d0b5",
+				"f18cb942-ee41-416c-be3f-8053143951e7"
+			]
+		},
+		{
+			"uuid": "df331366-0e4c-4652-9046-de2040bdad75",
+			"title": "Doing",
+			"tasks": []
+		},
+		{
+			"uuid": "274080d0-1d16-40da-ac8f-b20df7bcb834",
+			"title": "Done",
+			"tasks": [
+				"d7746532-a4d1-49a7-bba5-e355601d7a8d",
+				"4828a159-1a81-431e-81a0-be17e4a1e5a3",
+				"7bf55d57-020a-4a38-8dd7-8adee51efb78",
+				"a2bb268c-9037-469b-b4d4-f85b85a58bce",
+				"250cbce5-210a-4591-8ff8-72174f277a1c",
+				"1bc9c3b5-7fa5-41fc-a15f-bcbc94a2e220",
+				"d1be2304-1929-41be-948e-7685f70cc9a4",
+				"f33b6867-c5bc-4d20-ab8b-95c63a3ee54d"
+			]
+		},
+		{
+			"uuid": "319c76d3-468f-4f7f-a227-8afb1443e53a",
+			"title": "UI",
+			"tasks": [
+				"7d79312e-2ee5-42c7-863e-406bd390a43c",
+				"0445aef8-3b2b-4e3d-a55a-b2230dab7adc"
+			]
+		}
+	],
+	"tasks": [
+		{
+			"uuid": "f33b6867-c5bc-4d20-ab8b-95c63a3ee54d",
+			"title": "Add hover mechanic for regions",
+			"description": "",
+			"category": "6e988cbb-7604-481d-a30a-d8dc58383b36",
+			"steps": [
+				{
+					"details": "Detect when a region is hovered",
+					"done": true
+				},
+				{
+					"details": "Change the highlighted region's while highlighted",
+					"done": true
+				}
+			]
+		},
+		{
+			"uuid": "d1be2304-1929-41be-948e-7685f70cc9a4",
+			"title": "Add region select feature that will show a modal",
+			"description": "",
+			"category": "1dc654a7-9809-487c-a3a4-3f0b4a8331f4",
+			"steps": [
+				{
+					"details": "Detect when a region is clicked",
+					"done": true
+				},
+				{
+					"details": "Display the region descritpion in the Description label\n",
+					"done": true
+				}
+			]
+		},
+		{
+			"uuid": "d7746532-a4d1-49a7-bba5-e355601d7a8d",
+			"title": "Import type info",
+			"description": "",
+			"category": "1dc654a7-9809-487c-a3a4-3f0b4a8331f4",
+			"steps": []
+		},
+		{
+			"uuid": "4828a159-1a81-431e-81a0-be17e4a1e5a3",
+			"title": "Build basic gui with dropdown and area for brain diagram",
+			"description": "",
+			"category": "1dc654a7-9809-487c-a3a4-3f0b4a8331f4",
+			"steps": []
+		},
+		{
+			"uuid": "7bf55d57-020a-4a38-8dd7-8adee51efb78",
+			"title": "Draw the regions polygons",
+			"description": "",
+			"category": "1dc654a7-9809-487c-a3a4-3f0b4a8331f4",
+			"steps": []
+		},
+		{
+			"uuid": "a2bb268c-9037-469b-b4d4-f85b85a58bce",
+			"title": "Draw the outlines separating the regions",
+			"description": "",
+			"category": "6e988cbb-7604-481d-a30a-d8dc58383b36",
+			"steps": []
+		},
+		{
+			"uuid": "250cbce5-210a-4591-8ff8-72174f277a1c",
+			"title": "Implement region info for currently selected type",
+			"description": "",
+			"category": "a1751616-1adf-4a70-ad7c-8b7f9add2f18",
+			"steps": []
+		},
+		{
+			"uuid": "1bc9c3b5-7fa5-41fc-a15f-bcbc94a2e220",
+			"title": "Add events that switch the type info on new type select",
+			"description": "",
+			"category": "a1751616-1adf-4a70-ad7c-8b7f9add2f18",
+			"steps": []
+		},
+		{
+			"uuid": "f18cb942-ee41-416c-be3f-8053143951e7",
+			"title": "Configure your Apache Server to run Web Exports",
+			"description": "",
+			"category": "519e9f9d-7a2a-4ed4-a627-ab6858184f2f",
+			"steps": []
+		},
+		{
+			"uuid": "7d79312e-2ee5-42c7-863e-406bd390a43c",
+			"title": "Setup multiple resolutions",
+			"description": "Youtube video: \nhttps://www.youtube.com/watch?time_continue=469&v=hWA8BPwi8tI&embeds_referring_euri=https%3A%2F%2Fwww.bing.com%2F&embeds_referring_origin=https%3A%2F%2Fwww.bing.com&source_ve_path=MTM5MTE3LDI4NjY2&feature=emb_logo\n",
+			"category": "34cfc19f-d8da-48f8-9c3c-6c28fb5abcd5",
+			"steps": []
+		},
+		{
+			"uuid": "0445aef8-3b2b-4e3d-a55a-b2230dab7adc",
+			"title": "Add slider to control text speed",
+			"description": "",
+			"category": "519e9f9d-7a2a-4ed4-a627-ab6858184f2f",
+			"steps": []
+		},
+		{
+			"uuid": "2bc026ba-b03e-4386-af7e-18f021e6d0b5",
+			"title": "Correct all the typos in the region descriptions",
+			"description": "",
+			"category": "6e988cbb-7604-481d-a30a-d8dc58383b36",
+			"steps": []
+		},
+		{
+			"uuid": "2c4d1366-2faf-4408-aff3-cab5e9bcf4b4",
+			"title": "Figure out how to handle the region summaries",
+			"description": "",
+			"category": "6e988cbb-7604-481d-a30a-d8dc58383b36",
+			"steps": []
+		},
+		{
+			"uuid": "4c16fae5-a250-4bd7-8068-6d1e00b73223",
+			"title": "Rework the UI so that it doesn't look ugly",
+			"description": "",
+			"category": "1dc654a7-9809-487c-a3a4-3f0b4a8331f4",
+			"steps": []
+		}
+	],
+	"layout": {
+		"columns": [
+			[
+				"a2c36acd-f630-48ce-aef1-1ed9cfa3c594",
+				"319c76d3-468f-4f7f-a227-8afb1443e53a"
+			],
+			[
+				"df331366-0e4c-4652-9046-de2040bdad75"
+			],
+			[
+				"274080d0-1d16-40da-ac8f-b20df7bcb834"
+			]
+		]
+	}
+}

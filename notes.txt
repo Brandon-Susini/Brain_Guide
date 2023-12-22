@@ -1,0 +1,36 @@
+Guide Screen:
+	Houses main script that sets up ui elements, and communicates events.
+	
+	
+Brain:
+	Container for region polygons, region outlines, and brain reference picture.
+	
+region_manager script:
+	Sets up region activity levels and houses region info like names, activity levels, and more.
+	Changing the brain state and retrieving information about a region happen here.
+	
+Sidebar:
+	Houses option controls like the dropdown and region descriptions. 
+	Could possibly add more options and settings here.
+	
+	
+	
+	
+	
+===============================Theory============================================
+	
+Brain Insights:
+	F7 - Facilitates empathy. Can just look like empathy since it's copying rather than truly feeling.
+		What region would help with understanding what you're feeling? That region must play a part.
+		T6 - "Imagine yourself in a complex system" (someone elses life)
+			"Envision your future" (or an imagined future)
+			"Notice abstract spatial-strucutral relationships"
+		F8 - Identify what we believe (imagine new belief structures and make them real to us)
+			"Ignore context" - Forget that this is a contextual excersize. Treat it like reality.
+
+
+
+Type Hightlights based on level of activity
+	SiFe - Low F7, lack imagination and empathy
+		Very High C4 - Artistic ability, wholistic memory recall, recall whole body affect (intune with their internal sensations)
+	TiSe - Low F7, lack imagination and empathy

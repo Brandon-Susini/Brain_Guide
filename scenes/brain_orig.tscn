@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2ns8is3hhmor"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_db4s3"]
+
+[node name="BrainRegions" type="CanvasGroup"]
+
+[node name="Fp1" type="Polygon2D" parent="."]
+material = SubResource("CanvasItemMaterial_db4s3")
+position = Vector2(-51, -210)
+polygon = PackedVector2Array(51, -55, 14, -51, -25, -33, -56, -7, -74, 14, -32, 51, 30, 37, 51, 21)
+
+[node name="Fp2" type="Polygon2D" parent="."]
+position = Vector2(51, -210)
+rotation = -3.14159
+scale = Vector2(1, -1)
+polygon = PackedVector2Array(51, -55, 14, -51, -25, -33, -56, -7, -75, 14, -33, 50, 28, 39, 51, 21)
+
+[node name="F7" type="Polygon2D" parent="."]
+position = Vector2(-135, -122)
+polygon = PackedVector2Array(11, -75, -11, -45, -30, -11, -53, 42, 13, 71, 31, 10, 52, -38)
+
+[node name="F8" type="Polygon2D" parent="."]
+position = Vector2(137, -121)
+scale = Vector2(-1, 1)
+polygon = PackedVector2Array(11, -75, -11, -45, -30, -11, -53, 42, 12, 76, 31, 10, 53, -39)
+
+[node name="T3" type="Polygon2D" parent="."]
+position = Vector2(-170, -4)
+polygon = PackedVector2Array(-18, -76, -33, -15, -38, 23, -40, 50, -39, 73, 25, 71, 48, -47)
+
+[node name="T4" type="Polygon2D" parent="."]
+position = Vector2(174, -4)
+scale = Vector2(-1, 1)
+polygon = PackedVector2Array(-16, -75, -32, -14, -36, 23, -36, 51, -36, 73, 28, 72, 49, -41)
+
+[node name="T5" type="Polygon2D" parent="."]
+position = Vector2(-168, 145)
+polygon = PackedVector2Array(-41, -76, -40, -51, -35, -23, -23, 14, -3, 52, 19, 77, 60, 61, 24, -6, 22, -78)
+
+[node name="T6" type="Polygon2D" parent="."]
+position = Vector2(168, 145)
+scale = Vector2(-1, 1)
+polygon = PackedVector2Array(-42, -76, -40, -51, -35, -23, -23, 14, -3, 52, 20, 78, 60, 61, 24, -6, 22, -78)
+
+[node name="O1" type="Polygon2D" parent="."]
+position = Vector2(-55, 225)
+polygon = PackedVector2Array(33, -42, -54, -19, -94, -3, -62, 20, -39, 30, -15, 36, 1, 39, 28, 41, 55, 40, 55, -29)
+
+[node name="O2" type="Polygon2D" parent="."]
+position = Vector2(54, 225)
+scale = Vector2(-1, 1)
+polygon = PackedVector2Array(29, -42, -54, -19, -94, -3, -62, 20, -39, 30, -15, 36, 1, 39, 28, 41, 55, 40, 55, -29)
+
+[node name="P3" type="Polygon2D" parent="."]
+position = Vector2(-88, 120)
+polygon = PackedVector2Array(-58, -54, -56, 20, -20, 86, 66, 63, 46, -10, 49, -88)
+
+[node name="P4" type="Polygon2D" parent="."]
+position = Vector2(88, 120)
+scale = Vector2(-1, 1)
+polygon = PackedVector2Array(-58, -54, -56, 20, -20, 86, 63, 63, 42, -9, 47, -88)
+
+[node name="C3" type="Polygon2D" parent="."]
+position = Vector2(-88, 0)
+polygon = PackedVector2Array(-35, -51, -57, 66, 49, 32, 51, -47)
+
+[node name="C4" type="Polygon2D" parent="."]
+position = Vector2(91, 2)
+scale = Vector2(-1, 1)
+polygon = PackedVector2Array(-34, -48, -55, 64, 50, 30, 52, -47)
+
+[node name="F4" type="Polygon2D" parent="."]
+position = Vector2(68, -105)
+rotation = -3.14159
+scale = Vector2(1, -1)
+polygon = PackedVector2Array(45, -66, -17, -55, -39, -5, -57, 59, 29, 61, 29, 42)
+
+[node name="F3" type="Polygon2D" parent="."]
+position = Vector2(-67, -107)
+polygon = PackedVector2Array(46, -66, -16, -53, -38, -5, -56, 57, 30, 60, 30, 42)
