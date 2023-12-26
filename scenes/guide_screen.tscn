@@ -1,17 +1,22 @@
-[gd_scene load_steps=8 format=3 uid="uid://blbbvgkdy81b0"]
+[gd_scene load_steps=13 format=3 uid="uid://blbbvgkdy81b0"]
 
 [ext_resource type="Texture2D" uid="uid://b0jk47bt7kau4" path="res://assets/brain_guide.png" id="1_6twgp"]
 [ext_resource type="Script" path="res://scenes/guide.gd" id="1_141rj"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_xjjh2"]
 [ext_resource type="Script" path="res://scenes/region_manager.gd" id="3_gewl8"]
 [ext_resource type="Shader" path="res://assets/background.gdshader" id="5_22s6p"]
 [ext_resource type="Theme" uid="uid://ykp3sijrtrkk" path="res://main_theme.tres" id="6_drfbh"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="6_qrmke"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_g86ti"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="8_3nrxm"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="9_u1hkt"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_db4s3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3i4k8"]
 shader = ExtResource("5_22s6p")
 
-[node name="GuideScreen" type="Control" node_paths=PackedStringArray("region_info", "type_dropdown", "description_label")]
+[node name="GuideScreen" type="Control" node_paths=PackedStringArray("region_info", "type_dropdown", "description_label", "summary_tooltip")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,9 +29,17 @@ mouse_filter = 1
 script = ExtResource("1_141rj")
 region_info = NodePath("HSplitContainer/AppPanel/Control/Brain")
 type_dropdown = NodePath("HSplitContainer/Sidebar/InfoPanel/Types")
-description_label = NodePath("HSplitContainer/Sidebar/InfoPanel/Description")
+description_label = NodePath("HSplitContainer/Sidebar/DescriptionContainer/Description")
+summary_tooltip = NodePath("TooltipContainer")
 metadata/_edit_horizontal_guides_ = []
 metadata/_edit_vertical_guides_ = [214.0]
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("2_xjjh2")]
+layout_mode = 1
+offset_left = 4.0
+offset_top = 108.0
+offset_right = -1269.0
+initial_node_to_watch = NodePath("../StateChart")
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
 layout_mode = 1
@@ -326,12 +339,9 @@ color = Color(0.2, 0.290196, 0.513726, 1)
 [node name="InfoPanel" type="VBoxContainer" parent="HSplitContainer/Sidebar"]
 material = SubResource("ShaderMaterial_3i4k8")
 layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -540.0
-offset_bottom = 540.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -341,8 +351,15 @@ size_flags_horizontal = 3
 size_flags_vertical = 0
 size_flags_stretch_ratio = 2.03
 
-[node name="Description" type="RichTextLabel" parent="HSplitContainer/Sidebar/InfoPanel"]
-custom_minimum_size = Vector2(0, 1056)
+[node name="DescriptionContainer" type="PanelContainer" parent="HSplitContainer/Sidebar"]
+layout_mode = 2
+offset_top = 24.0
+offset_right = 1269.0
+offset_bottom = 1080.0
+size_flags_vertical = 3
+theme = ExtResource("6_drfbh")
+
+[node name="Description" type="RichTextLabel" parent="HSplitContainer/Sidebar/DescriptionContainer"]
 layout_mode = 2
 focus_mode = 2
 theme = ExtResource("6_drfbh")
@@ -352,6 +369,45 @@ text = "This region is home to mirror neurons which are special cells using thes
 	<br> <br> People who under use this region may display a lack of empathy and find it hard to learn by imitation or inference puzzle over other's motives dislike what if questions and brainstorming and or feel challenged to think outside the box.
 	this region is not analytical that we may feel like we are analyzing as we explore a myriad of scenarios simply it helps us make smart guesses based on context and imitation people who use this region with skill are able to quickly build rapport with others and make insightful guesses about people without having any particular reason or theory in mind their mental stimulation simply reveal what they need to know using this region May frustrate us Sometimes using it can be fun and provide ideas for why people act as they do however our inferences maybe wrong moreover while this region provides an appearance of empathy and Rapport the active mirroring others does not mean we truly care"
 selection_enabled = true
+
+[node name="TooltipContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_right = 182.0
+offset_bottom = 26.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="TooltipContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SummaryTooltip" type="Label" parent="TooltipContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Testing text hello world"
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("6_qrmke")
+track_in_editor = true
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("7_g86ti")
+initial_state = NodePath("Default")
+
+[node name="Default" type="Node" parent="StateChart/Root"]
+script = ExtResource("8_3nrxm")
+
+[node name="ToRegionSelected" type="Node" parent="StateChart/Root/Default"]
+script = ExtResource("9_u1hkt")
+to = NodePath("../../RegionSelected")
+event = &"toRegionSelected"
+
+[node name="RegionSelected" type="Node" parent="StateChart/Root"]
+script = ExtResource("8_3nrxm")
+
+[node name="ToDefault" type="Node" parent="StateChart/Root/RegionSelected"]
+script = ExtResource("9_u1hkt")
+to = NodePath("../../Default")
+event = &"toDefault"
 
 [connection signal="typeSelected" from="." to="HSplitContainer/AppPanel/Control/Brain" method="_on_guide_screen_type_selected"]
 [connection signal="regionSelected" from="HSplitContainer/AppPanel/Control/Brain" to="." method="_on_brain_region_selected"]

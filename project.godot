@@ -27,4 +27,4 @@ project/assembly_name="Brain Guide"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/kanban_tasks/plugin.cfg", "res://addons/script-ide/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_state_charts/plugin.cfg", "res://addons/kanban_tasks/plugin.cfg", "res://addons/script-ide/plugin.cfg")

@@ -1,12 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://d2ns8is3hhmor"]
+[gd_scene load_steps=3 format=3 uid="uid://d2ns8is3hhmor"]
+
+[ext_resource type="Script" path="res://scenes/brain_orig.gd" id="1_1tjyd"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_db4s3"]
 
 [node name="BrainRegions" type="CanvasGroup"]
+position = Vector2(947, 545)
+script = ExtResource("1_1tjyd")
 
 [node name="Fp1" type="Polygon2D" parent="."]
 material = SubResource("CanvasItemMaterial_db4s3")
 position = Vector2(-51, -210)
+color = Color(0.831373, 0.556863, 0.188235, 1)
 polygon = PackedVector2Array(51, -55, 14, -51, -25, -33, -56, -7, -74, 14, -32, 51, 30, 37, 51, 21)
 
 [node name="Fp2" type="Polygon2D" parent="."]

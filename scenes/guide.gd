@@ -9,6 +9,12 @@ signal typeSelected
 @export var description_label: RichTextLabel
 @export var scale_factor: float = 1
 
+#Tooltip variables
+@export var summary_tooltip: PanelContainer
+@export var tooltip_offset: Vector2 = Vector2(20,10)
+
+#State Chart Variables
+@onready var state_chart:StateChart = $StateChart
 
 var timePassed = 0
 
@@ -25,6 +31,8 @@ func loadDescriptionText():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
 func _process(delta):
+	var mouse_position: Vector2 = get_global_mouse_position()
+	summary_tooltip.position = Vector2(mouse_position.x + tooltip_offset.x,mouse_position.y+tooltip_offset.y)
 	get_tree().root.content_scale_factor = scale_factor
 	if description_label.visible_ratio < 1:
 		description_label.visible_ratio = timePassed
@@ -44,5 +52,6 @@ func _on_brain_regions_ready():
 
 
 func _on_brain_region_selected(region):
+	state_chart.send_event("toRegionSelected")
 	description_label.text = region_info.getRegionDescription(region)
 	pass # Replace with function body.
