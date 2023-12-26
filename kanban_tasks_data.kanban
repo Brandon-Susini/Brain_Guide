@@ -37,6 +37,7 @@
 			"title": "Todo",
 			"tasks": [
 				"4c16fae5-a250-4bd7-8068-6d1e00b73223",
+				"2c4d1366-2faf-4408-aff3-cab5e9bcf4b4",
 				"2bc026ba-b03e-4386-af7e-18f021e6d0b5",
 				"c9f3568d-2312-4053-ad2b-6e9bcb132eba",
 				"f18cb942-ee41-416c-be3f-8053143951e7",
@@ -48,7 +49,6 @@
 			"uuid": "df331366-0e4c-4652-9046-de2040bdad75",
 			"title": "Doing",
 			"tasks": [
-				"2c4d1366-2faf-4408-aff3-cab5e9bcf4b4",
 				"e14dd98c-61b4-4ecb-9602-e395a253209a"
 			]
 		},
@@ -228,10 +228,19 @@
 		},
 		{
 			"uuid": "e14dd98c-61b4-4ecb-9602-e395a253209a",
-			"title": "Set up StateChart to handle app flow",
-			"description": "States:\n\n\n- Parellel:\n* Playing\n\t* Current Display Mode\n\t\t* Types\n\t\t* Whole Brain States\n\t\t* Simulation\n\t* Default\t\n\t* ShowSummary\n\t* RegionSelected \n* Paused\n\t* Settings\n\t* Etc...\n\n- \n\n",
+			"title": "Plan Out Final Design and State Flow of App",
+			"description": "Draw a State Diagram on Trillium\n\n\nStates:\n\n\n- Parellel:\n* Playing\n\t* Current Display Mode\n\t\t* Types\n\t\t* Whole Brain States\n\t\t* Simulation\n\t* Default\t\n\t* ShowSummary\n\t* RegionSelected \n* Paused\n\t* Settings\n\t* Etc...\n\n- \n\n",
 			"category": "6e988cbb-7604-481d-a30a-d8dc58383b36",
-			"steps": []
+			"steps": [
+				{
+					"details": "Draw a State Diagram on Trilium",
+					"done": false
+				},
+				{
+					"details": "Draw a Wireframe of each screen and state on trilium",
+					"done": false
+				}
+			]
 		}
 	],
 	"layout": {

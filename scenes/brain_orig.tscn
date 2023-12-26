@@ -5,7 +5,6 @@
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_db4s3"]
 
 [node name="BrainRegions" type="CanvasGroup"]
-position = Vector2(947, 545)
 script = ExtResource("1_1tjyd")
 
 [node name="Fp1" type="Polygon2D" parent="."]

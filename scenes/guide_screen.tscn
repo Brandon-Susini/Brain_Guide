@@ -29,16 +29,18 @@ mouse_filter = 1
 script = ExtResource("1_141rj")
 region_info = NodePath("HSplitContainer/AppPanel/Control/Brain")
 type_dropdown = NodePath("HSplitContainer/Sidebar/InfoPanel/Types")
-description_label = NodePath("HSplitContainer/Sidebar/DescriptionContainer/Description")
+description_label = NodePath("HSplitContainer/Sidebar/InfoPanel/DescriptionContainer/Description")
 summary_tooltip = NodePath("TooltipContainer")
 metadata/_edit_horizontal_guides_ = []
 metadata/_edit_vertical_guides_ = [214.0]
 
 [node name="StateChartDebugger" parent="." instance=ExtResource("2_xjjh2")]
+custom_minimum_size = Vector2(483.195, 0)
 layout_mode = 1
-offset_left = 4.0
-offset_top = 108.0
-offset_right = -1269.0
+anchors_preset = 9
+anchor_right = 0.0
+offset_right = 18.0
+grow_horizontal = 1
 initial_node_to_watch = NodePath("../StateChart")
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
@@ -351,15 +353,12 @@ size_flags_horizontal = 3
 size_flags_vertical = 0
 size_flags_stretch_ratio = 2.03
 
-[node name="DescriptionContainer" type="PanelContainer" parent="HSplitContainer/Sidebar"]
+[node name="DescriptionContainer" type="PanelContainer" parent="HSplitContainer/Sidebar/InfoPanel"]
 layout_mode = 2
-offset_top = 24.0
-offset_right = 1269.0
-offset_bottom = 1080.0
 size_flags_vertical = 3
 theme = ExtResource("6_drfbh")
 
-[node name="Description" type="RichTextLabel" parent="HSplitContainer/Sidebar/DescriptionContainer"]
+[node name="Description" type="RichTextLabel" parent="HSplitContainer/Sidebar/InfoPanel/DescriptionContainer"]
 layout_mode = 2
 focus_mode = 2
 theme = ExtResource("6_drfbh")
