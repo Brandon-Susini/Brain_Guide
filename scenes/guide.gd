@@ -31,6 +31,9 @@ func loadDescriptionText():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
 func _process(delta):
+	if Input.is_action_just_pressed("pause"):
+		state_chart.send_event.call_deferred("pause_pressed")
+		
 	var mouse_position: Vector2 = get_global_mouse_position()
 	summary_tooltip.position = Vector2(mouse_position.x + tooltip_offset.x,mouse_position.y+tooltip_offset.y)
 	get_tree().root.content_scale_factor = scale_factor

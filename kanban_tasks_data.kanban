@@ -36,7 +36,6 @@
 			"uuid": "a2c36acd-f630-48ce-aef1-1ed9cfa3c594",
 			"title": "Todo",
 			"tasks": [
-				"4c16fae5-a250-4bd7-8068-6d1e00b73223",
 				"2c4d1366-2faf-4408-aff3-cab5e9bcf4b4",
 				"2bc026ba-b03e-4386-af7e-18f021e6d0b5",
 				"c9f3568d-2312-4053-ad2b-6e9bcb132eba",
@@ -49,7 +48,8 @@
 			"uuid": "df331366-0e4c-4652-9046-de2040bdad75",
 			"title": "Doing",
 			"tasks": [
-				"e14dd98c-61b4-4ecb-9602-e395a253209a"
+				"e14dd98c-61b4-4ecb-9602-e395a253209a",
+				"10db3cda-a858-4864-a7be-5ee3728b84f0"
 			]
 		},
 		{
@@ -199,13 +199,6 @@
 			]
 		},
 		{
-			"uuid": "4c16fae5-a250-4bd7-8068-6d1e00b73223",
-			"title": "Rework the UI so that it doesn't look ugly",
-			"description": "",
-			"category": "1dc654a7-9809-487c-a3a4-3f0b4a8331f4",
-			"steps": []
-		},
-		{
 			"uuid": "9f89c026-4760-4a29-b8d0-9412cec8bb97",
 			"title": "Selection mode that gives regions and an activity level and it shows you types with those regions with the specified activity level",
 			"description": "",
@@ -214,7 +207,7 @@
 		},
 		{
 			"uuid": "c9f3568d-2312-4053-ad2b-6e9bcb132eba",
-			"title": "Convert the Sidepanel <control> into a <TabContainer>",
+			"title": "Convert the Sidebar <control> into a <TabContainer>",
 			"description": "",
 			"category": "6e988cbb-7604-481d-a30a-d8dc58383b36",
 			"steps": []
@@ -230,7 +223,7 @@
 			"uuid": "e14dd98c-61b4-4ecb-9602-e395a253209a",
 			"title": "Plan Out Final Design and State Flow of App",
 			"description": "Draw a State Diagram on Trillium\n\n\nStates:\n\n\n- Parellel:\n* Playing\n\t* Current Display Mode\n\t\t* Types\n\t\t* Whole Brain States\n\t\t* Simulation\n\t* Default\t\n\t* ShowSummary\n\t* RegionSelected \n* Paused\n\t* Settings\n\t* Etc...\n\n- \n\n",
-			"category": "6e988cbb-7604-481d-a30a-d8dc58383b36",
+			"category": "1dc654a7-9809-487c-a3a4-3f0b4a8331f4",
 			"steps": [
 				{
 					"details": "Draw a State Diagram on Trilium",
@@ -241,6 +234,13 @@
 					"done": false
 				}
 			]
+		},
+		{
+			"uuid": "10db3cda-a858-4864-a7be-5ee3728b84f0",
+			"title": "Complete the Pause functionality",
+			"description": "Build a pause menu that explains how to use the currently selected mode as well as general controls.",
+			"category": "6e988cbb-7604-481d-a30a-d8dc58383b36",
+			"steps": []
 		}
 	],
 	"layout": {

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://blbbvgkdy81b0"]
+[gd_scene load_steps=14 format=3 uid="uid://blbbvgkdy81b0"]
 
 [ext_resource type="Texture2D" uid="uid://b0jk47bt7kau4" path="res://assets/brain_guide.png" id="1_6twgp"]
 [ext_resource type="Script" path="res://scenes/guide.gd" id="1_141rj"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="6_qrmke"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_g86ti"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="8_3nrxm"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="8_c1454"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="9_u1hkt"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_db4s3"]
@@ -27,23 +28,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
 script = ExtResource("1_141rj")
-region_info = NodePath("HSplitContainer/AppPanel/Control/Brain")
-type_dropdown = NodePath("HSplitContainer/Sidebar/InfoPanel/Types")
-description_label = NodePath("HSplitContainer/Sidebar/InfoPanel/DescriptionContainer/Description")
+region_info = NodePath("ProjectWrapper/BrainPanel/Control/Brain")
+type_dropdown = NodePath("ProjectWrapper/Sidebar/InfoPanel/Types")
+description_label = NodePath("ProjectWrapper/Sidebar/InfoPanel/DescriptionContainer/Description")
 summary_tooltip = NodePath("TooltipContainer")
 metadata/_edit_horizontal_guides_ = []
 metadata/_edit_vertical_guides_ = [214.0]
 
-[node name="StateChartDebugger" parent="." instance=ExtResource("2_xjjh2")]
-custom_minimum_size = Vector2(483.195, 0)
-layout_mode = 1
-anchors_preset = 9
-anchor_right = 0.0
-offset_right = 18.0
-grow_horizontal = 1
-initial_node_to_watch = NodePath("../StateChart")
-
-[node name="HSplitContainer" type="HSplitContainer" parent="."]
+[node name="ProjectWrapper" type="HSplitContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,200 +43,200 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AppPanel" type="CenterContainer" parent="HSplitContainer"]
+[node name="BrainPanel" type="CenterContainer" parent="ProjectWrapper"]
 custom_minimum_size = Vector2(639, 0)
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HSplitContainer/AppPanel"]
+[node name="Control" type="Control" parent="ProjectWrapper/BrainPanel"]
 layout_mode = 2
 mouse_filter = 1
 
-[node name="Brain" type="Node2D" parent="HSplitContainer/AppPanel/Control" node_paths=PackedStringArray("area")]
+[node name="Brain" type="Node2D" parent="ProjectWrapper/BrainPanel/Control" node_paths=PackedStringArray("area")]
 scale = Vector2(1.5, 1.5)
 script = ExtResource("3_gewl8")
 area = NodePath("BrainRegions/RegionsArea")
 
-[node name="BrainReference" type="Sprite2D" parent="HSplitContainer/AppPanel/Control/Brain"]
+[node name="BrainReference" type="Sprite2D" parent="ProjectWrapper/BrainPanel/Control/Brain"]
 visible = false
 position = Vector2(336, 333)
 scale = Vector2(0.815, 0.815)
 texture = ExtResource("1_6twgp")
 
-[node name="BrainRegions" type="CanvasGroup" parent="HSplitContainer/AppPanel/Control/Brain"]
+[node name="BrainRegions" type="CanvasGroup" parent="ProjectWrapper/BrainPanel/Control/Brain"]
 
-[node name="RegionsArea" type="Area2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions"]
+[node name="RegionsArea" type="Area2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions"]
 
-[node name="Fp1" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="Fp1" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 material = SubResource("CanvasItemMaterial_db4s3")
 position = Vector2(-51, -210)
 polygon = PackedVector2Array(51, -55, 14, -51, -25, -33, -56, -7, -74, 14, -32, 51, 30, 37, 51, 21)
 
-[node name="Fp1Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="Fp1Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 material = SubResource("CanvasItemMaterial_db4s3")
 position = Vector2(-51, -210)
 polygon = PackedVector2Array(51, -55, 14, -51, -25, -33, -56, -7, -74, 14, -32, 51, 30, 37, 51, 21)
 
-[node name="Fp2" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="Fp2" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(51, -210)
 rotation = -3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(51, -55, 14, -51, -25, -33, -56, -7, -75, 14, -33, 50, 28, 39, 51, 21)
 
-[node name="Fp2Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="Fp2Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(51, -210)
 rotation = -3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(51, -55, 14, -51, -25, -33, -56, -7, -75, 14, -33, 50, 28, 39, 51, 21)
 
-[node name="F7" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="F7" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-135, -122)
 polygon = PackedVector2Array(11, -75, -11, -45, -30, -11, -53, 42, 13, 71, 31, 10, 52, -38)
 
-[node name="F7Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="F7Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-135, -122)
 polygon = PackedVector2Array(12.3333, -72, -9.66667, -43.3333, -28.3333, -10, -51, 43.3333, 13, 72.6667, 29, 11.3333, 49, -35.3333)
 
-[node name="F8" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="F8" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(137, -121)
 rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(11, -75, -11, -45, -30, -11, -53, 42, 12, 76, 31, 10, 53, -39)
 
-[node name="F8Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="F8Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(137, -121)
 rotation = -3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(11, -75, -11, -45, -30, -11, -53, 42, 12, 76, 31, 10, 53, -39)
 
-[node name="T3" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="T3" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-170, -4)
 polygon = PackedVector2Array(-18, -76, -33, -15, -38, 23, -40, 50, -39, 73, 25, 71, 48, -47)
 
-[node name="T3Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="T3Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-170, -4)
 polygon = PackedVector2Array(-18, -76, -33, -15, -38, 23, -40, 50, -39, 73, 25, 71, 48, -47)
 
-[node name="T4" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="T4" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(174, -4)
 rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(-16, -75, -32, -14, -36, 23, -36, 51, -36, 73, 28, 72, 49, -41)
 
-[node name="T4Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="T4Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(174, -4)
 rotation = -3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(-16, -75, -32, -14, -36, 23, -36, 51, -36, 73, 28, 72, 49, -41)
 
-[node name="T5" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="T5" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-168, 145)
 polygon = PackedVector2Array(-41, -76, -40, -51, -35, -23, -23, 14, -3, 52, 19, 77, 60, 61, 24, -6, 22, -78)
 
-[node name="T5Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="T5Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-168, 145)
 polygon = PackedVector2Array(-41, -76, -40, -51, -35, -23, -23, 14, -3, 52, 19, 77, 60, 61, 24, -6, 22, -78)
 
-[node name="T6" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="T6" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(168, 145)
 rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(-42, -76, -40, -51, -35, -23, -23, 14, -3, 52, 20, 78, 60, 61, 24, -6, 22, -78)
 
-[node name="T6Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="T6Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(168, 145)
 rotation = -3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(-42, -76, -40, -51, -35, -23, -23, 14, -3, 52, 20, 78, 60, 61, 24, -6, 22, -78)
 
-[node name="O1" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="O1" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-55, 225)
 polygon = PackedVector2Array(33, -42, -54, -19, -94, -3, -62, 20, -39, 30, -15, 36, 1, 39, 28, 41, 55, 40, 55, -29)
 
-[node name="O1Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="O1Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-55, 225)
 polygon = PackedVector2Array(33, -42, -54, -19, -94, -3, -62, 20, -39, 30, -15, 36, 1, 39, 28, 41, 55, 40, 55, -29)
 
-[node name="O2" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="O2" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(54, 225)
 rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(29, -42, -54, -19, -94, -3, -62, 20, -39, 30, -15, 36, 1, 39, 28, 41, 55, 40, 55, -29)
 
-[node name="O2Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="O2Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(54, 225)
 rotation = -3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(29, -42, -54, -19, -94, -3, -62, 20, -39, 30, -15, 36, 1, 39, 28, 41, 55, 40, 55, -29)
 
-[node name="P3" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="P3" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-88, 120)
 polygon = PackedVector2Array(-58, -54, -56, 20, -20, 86, 66, 63, 46, -10, 49, -88)
 
-[node name="P3Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="P3Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-88, 120)
 polygon = PackedVector2Array(-58, -54, -56, 20, -20, 86, 66, 63, 46, -10, 49, -88)
 
-[node name="P4" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="P4" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(88, 120)
 rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(-58, -54, -56, 20, -20, 86, 63, 63, 42, -9, 47, -88)
 
-[node name="P4Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="P4Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(88, 120)
 rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(-58, -54, -56, 20, -20, 86, 63, 63, 42, -9, 47, -88)
 
-[node name="C3" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="C3" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-88, 0)
 polygon = PackedVector2Array(-35, -51, -57, 66, 49, 32, 51, -47)
 
-[node name="C3Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="C3Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-88, 0)
 polygon = PackedVector2Array(-35, -51, -57, 66, 49, 32, 51, -47)
 
-[node name="C4" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="C4" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(91, 2)
 rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(-34, -48, -55, 64, 50, 30, 52, -47)
 
-[node name="C4Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="C4Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(91, 2)
 rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(-34, -48, -55, 64, 50, 30, 52, -47)
 
-[node name="F4" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="F4" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(68, -105)
 rotation = -3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(45, -66, -17, -55, -39, -5, -57, 59, 29, 61, 29, 42)
 
-[node name="F4Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="F4Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(68, -105)
 rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(45, -66, -17, -55, -39, -5, -57, 59, 27.3335, 60.9999, 30.0001, 42.3333)
 
-[node name="F3" type="Polygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="F3" type="Polygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-67, -107)
 polygon = PackedVector2Array(46, -66, -16, -53, -38, -5, -56, 57, 30, 60, 30, 42)
 
-[node name="F3Coll" type="CollisionPolygon2D" parent="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea"]
+[node name="F3Coll" type="CollisionPolygon2D" parent="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea"]
 position = Vector2(-67, -107)
 polygon = PackedVector2Array(45, -61.6667, -15.6667, -50.3333, -36.3333, -4.33333, -53, 57, 29.6667, 57, 31.6667, 42.3333)
 
-[node name="Borders" type="Node2D" parent="HSplitContainer/AppPanel/Control/Brain"]
+[node name="Borders" type="Node2D" parent="ProjectWrapper/BrainPanel/Control/Brain"]
 
-[node name="OuterLeft" type="Line2D" parent="HSplitContainer/AppPanel/Control/Brain/Borders"]
+[node name="OuterLeft" type="Line2D" parent="ProjectWrapper/BrainPanel/Control/Brain/Borders"]
 points = PackedVector2Array(2, -263, -36, -259, -61, -249, -75, -241, -103, -219, -123, -195, -146, -166, -161, -139, -173, -114, -186, -81, -197, -43, -204, -4, -207, 23, -210, 47, -208, 70, -207, 94, -202, 119, -199, 136, -191, 158, -184, 174, -167, 204, -146, 224, -125, 241, -101, 253, -77, 261, -53, 266, -29, 266, -11, 266, 2, 264, 2, 197, -20, 185, -41, 112, -37, 32, -35, -45, -35, -62, -20, -171, 1, -188, 1, -225, 1, -263)
 width = 5.0
 default_color = Color(0, 0, 0, 1)
 antialiased = true
 
-[node name="OuterRight" type="Line2D" parent="HSplitContainer/AppPanel/Control/Brain/Borders"]
+[node name="OuterRight" type="Line2D" parent="ProjectWrapper/BrainPanel/Control/Brain/Borders"]
 position = Vector2(3, 0)
 rotation = -3.14159
 scale = Vector2(1, -1)
@@ -253,19 +245,19 @@ width = 5.0
 default_color = Color(0, 0, 0, 1)
 antialiased = true
 
-[node name="MidlineLeft" type="Line2D" parent="HSplitContainer/AppPanel/Control/Brain/Borders"]
+[node name="MidlineLeft" type="Line2D" parent="ProjectWrapper/BrainPanel/Control/Brain/Borders"]
 points = PackedVector2Array(-84, -157, -104, -112, -121, -51, -131, -2, -138, 38, -145, 68, -143, 138, -107, 207)
 width = 5.0
 default_color = Color(0, 0, 0, 1)
 antialiased = true
 
-[node name="Row1" type="Line2D" parent="HSplitContainer/AppPanel/Control/Brain/Borders/MidlineLeft"]
+[node name="Row1" type="Line2D" parent="ProjectWrapper/BrainPanel/Control/Brain/Borders/MidlineLeft"]
 points = PackedVector2Array(-123, -195, -84, -158, -20, -171)
 width = 5.0
 default_color = Color(0, 0, 0, 1)
 antialiased = true
 
-[node name="Row2" type="Line2D" parent="HSplitContainer/AppPanel/Control/Brain/Borders/MidlineLeft"]
+[node name="Row2" type="Line2D" parent="ProjectWrapper/BrainPanel/Control/Brain/Borders/MidlineLeft"]
 position = Vector2(-32, 106)
 points = PackedVector2Array(-154, -183, -89, -154, -3, -154)
 width = 5.0
@@ -273,7 +265,7 @@ default_color = Color(0, 0, 0, 1)
 begin_cap_mode = 2
 antialiased = true
 
-[node name="Row3" type="Line2D" parent="HSplitContainer/AppPanel/Control/Brain/Borders/MidlineLeft"]
+[node name="Row3" type="Line2D" parent="ProjectWrapper/BrainPanel/Control/Brain/Borders/MidlineLeft"]
 position = Vector2(-56, 226)
 points = PackedVector2Array(-152, -155, -89, -158, 21, -193)
 width = 5.0
@@ -281,7 +273,7 @@ default_color = Color(0, 0, 0, 1)
 begin_cap_mode = 2
 antialiased = true
 
-[node name="Row4" type="Line2D" parent="HSplitContainer/AppPanel/Control/Brain/Borders/MidlineLeft"]
+[node name="Row4" type="Line2D" parent="ProjectWrapper/BrainPanel/Control/Brain/Borders/MidlineLeft"]
 position = Vector2(-16, 362)
 points = PackedVector2Array(-130, -138, -90, -154, -5, -177)
 width = 5.0
@@ -289,7 +281,7 @@ default_color = Color(0, 0, 0, 1)
 begin_cap_mode = 2
 antialiased = true
 
-[node name="MidlineRight" type="Line2D" parent="HSplitContainer/AppPanel/Control/Brain/Borders"]
+[node name="MidlineRight" type="Line2D" parent="ProjectWrapper/BrainPanel/Control/Brain/Borders"]
 position = Vector2(3, 3)
 rotation = -3.14159
 scale = Vector2(1, -1)
@@ -298,37 +290,37 @@ width = 5.0
 default_color = Color(0, 0, 0, 1)
 antialiased = true
 
-[node name="Row1" type="Line2D" parent="HSplitContainer/AppPanel/Control/Brain/Borders/MidlineRight"]
+[node name="Row1" type="Line2D" parent="ProjectWrapper/BrainPanel/Control/Brain/Borders/MidlineRight"]
 points = PackedVector2Array(-124, -197, -84.9996, -164, -20.9996, -172)
 width = 5.0
 default_color = Color(0, 0, 0, 1)
 antialiased = true
 
-[node name="Row2" type="Line2D" parent="HSplitContainer/AppPanel/Control/Brain/Borders/MidlineRight"]
+[node name="Row2" type="Line2D" parent="ProjectWrapper/BrainPanel/Control/Brain/Borders/MidlineRight"]
 position = Vector2(-32, 106)
 points = PackedVector2Array(-154, -184, -91, -153, -5, -153)
 width = 5.0
 default_color = Color(0, 0, 0, 1)
 antialiased = true
 
-[node name="Row3" type="Line2D" parent="HSplitContainer/AppPanel/Control/Brain/Borders/MidlineRight"]
+[node name="Row3" type="Line2D" parent="ProjectWrapper/BrainPanel/Control/Brain/Borders/MidlineRight"]
 position = Vector2(-56, 226)
 points = PackedVector2Array(-152, -158, -89, -160, 18.9999, -199.667)
 width = 5.0
 default_color = Color(0, 0, 0, 1)
 antialiased = true
 
-[node name="Row4" type="Line2D" parent="HSplitContainer/AppPanel/Control/Brain/Borders/MidlineRight"]
+[node name="Row4" type="Line2D" parent="ProjectWrapper/BrainPanel/Control/Brain/Borders/MidlineRight"]
 position = Vector2(-16, 362)
 points = PackedVector2Array(-128, -142, -94, -159, -7, -183)
 width = 5.0
 default_color = Color(0, 0, 0, 1)
 antialiased = true
 
-[node name="Sidebar" type="Control" parent="HSplitContainer"]
+[node name="Sidebar" type="Control" parent="ProjectWrapper"]
 layout_mode = 2
 
-[node name="ColorRect" type="ColorRect" parent="HSplitContainer/Sidebar"]
+[node name="SidebarBackground" type="ColorRect" parent="ProjectWrapper/Sidebar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -338,7 +330,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.2, 0.290196, 0.513726, 1)
 
-[node name="InfoPanel" type="VBoxContainer" parent="HSplitContainer/Sidebar"]
+[node name="InfoPanel" type="VBoxContainer" parent="ProjectWrapper/Sidebar"]
 material = SubResource("ShaderMaterial_3i4k8")
 layout_mode = 1
 anchors_preset = 15
@@ -347,18 +339,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Types" type="OptionButton" parent="HSplitContainer/Sidebar/InfoPanel"]
+[node name="Types" type="OptionButton" parent="ProjectWrapper/Sidebar/InfoPanel"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 size_flags_stretch_ratio = 2.03
 
-[node name="DescriptionContainer" type="PanelContainer" parent="HSplitContainer/Sidebar/InfoPanel"]
+[node name="DescriptionContainer" type="PanelContainer" parent="ProjectWrapper/Sidebar/InfoPanel"]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("6_drfbh")
 
-[node name="Description" type="RichTextLabel" parent="HSplitContainer/Sidebar/InfoPanel/DescriptionContainer"]
+[node name="Description" type="RichTextLabel" parent="ProjectWrapper/Sidebar/InfoPanel/DescriptionContainer"]
 layout_mode = 2
 focus_mode = 2
 theme = ExtResource("6_drfbh")
@@ -368,6 +360,11 @@ text = "This region is home to mirror neurons which are special cells using thes
 	<br> <br> People who under use this region may display a lack of empathy and find it hard to learn by imitation or inference puzzle over other's motives dislike what if questions and brainstorming and or feel challenged to think outside the box.
 	this region is not analytical that we may feel like we are analyzing as we explore a myriad of scenarios simply it helps us make smart guesses based on context and imitation people who use this region with skill are able to quickly build rapport with others and make insightful guesses about people without having any particular reason or theory in mind their mental stimulation simply reveal what they need to know using this region May frustrate us Sometimes using it can be fun and provide ideas for why people act as they do however our inferences maybe wrong moreover while this region provides an appearance of empathy and Rapport the active mirroring others does not mean we truly care"
 selection_enabled = true
+
+[node name="StateChartDebugger" parent="ProjectWrapper/Sidebar" instance=ExtResource("2_xjjh2")]
+custom_minimum_size = Vector2(483.195, 0)
+layout_mode = 1
+initial_node_to_watch = NodePath("../../../StateChart")
 
 [node name="TooltipContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -389,29 +386,45 @@ script = ExtResource("6_qrmke")
 track_in_editor = true
 
 [node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("8_c1454")
+
+[node name="Mode" type="Node" parent="StateChart/Root"]
 script = ExtResource("7_g86ti")
-initial_state = NodePath("Default")
+initial_state = NodePath("TypeOverviews")
 
-[node name="Default" type="Node" parent="StateChart/Root"]
+[node name="TypeOverviews" type="Node" parent="StateChart/Root/Mode"]
 script = ExtResource("8_3nrxm")
 
-[node name="ToRegionSelected" type="Node" parent="StateChart/Root/Default"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../RegionSelected")
-event = &"toRegionSelected"
-
-[node name="RegionSelected" type="Node" parent="StateChart/Root"]
+[node name="WholeBrainStates" type="Node" parent="StateChart/Root/Mode"]
 script = ExtResource("8_3nrxm")
 
-[node name="ToDefault" type="Node" parent="StateChart/Root/RegionSelected"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../Default")
-event = &"toDefault"
+[node name="SimulatedActivity" type="Node" parent="StateChart/Root/Mode"]
+script = ExtResource("8_3nrxm")
 
-[connection signal="typeSelected" from="." to="HSplitContainer/AppPanel/Control/Brain" method="_on_guide_screen_type_selected"]
-[connection signal="regionSelected" from="HSplitContainer/AppPanel/Control/Brain" to="." method="_on_brain_region_selected"]
-[connection signal="regionsReady" from="HSplitContainer/AppPanel/Control/Brain" to="." method="_on_brain_regions_ready"]
-[connection signal="input_event" from="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea" to="HSplitContainer/AppPanel/Control/Brain" method="_on_regions_area_input_event"]
-[connection signal="mouse_shape_entered" from="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea" to="HSplitContainer/AppPanel/Control/Brain" method="_on_regions_area_mouse_shape_entered"]
-[connection signal="mouse_shape_exited" from="HSplitContainer/AppPanel/Control/Brain/BrainRegions/RegionsArea" to="HSplitContainer/AppPanel/Control/Brain" method="_on_regions_area_mouse_shape_exited"]
-[connection signal="item_selected" from="HSplitContainer/Sidebar/InfoPanel/Types" to="." method="_on_types_item_selected"]
+[node name="On_Off" type="Node" parent="StateChart/Root"]
+script = ExtResource("7_g86ti")
+initial_state = NodePath("Playing")
+
+[node name="Playing" type="Node" parent="StateChart/Root/On_Off"]
+script = ExtResource("8_3nrxm")
+
+[node name="ToPaused" type="Node" parent="StateChart/Root/On_Off/Playing"]
+script = ExtResource("9_u1hkt")
+to = NodePath("../../Paused")
+event = &"pause_pressed"
+
+[node name="Paused" type="Node" parent="StateChart/Root/On_Off"]
+script = ExtResource("8_3nrxm")
+
+[node name="ToPlaying" type="Node" parent="StateChart/Root/On_Off/Paused"]
+script = ExtResource("9_u1hkt")
+to = NodePath("../../Playing")
+event = &"pause_pressed"
+
+[connection signal="typeSelected" from="." to="ProjectWrapper/BrainPanel/Control/Brain" method="_on_guide_screen_type_selected"]
+[connection signal="regionSelected" from="ProjectWrapper/BrainPanel/Control/Brain" to="." method="_on_brain_region_selected"]
+[connection signal="regionsReady" from="ProjectWrapper/BrainPanel/Control/Brain" to="." method="_on_brain_regions_ready"]
+[connection signal="input_event" from="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea" to="ProjectWrapper/BrainPanel/Control/Brain" method="_on_regions_area_input_event"]
+[connection signal="mouse_shape_entered" from="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea" to="ProjectWrapper/BrainPanel/Control/Brain" method="_on_regions_area_mouse_shape_entered"]
+[connection signal="mouse_shape_exited" from="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea" to="ProjectWrapper/BrainPanel/Control/Brain" method="_on_regions_area_mouse_shape_exited"]
+[connection signal="item_selected" from="ProjectWrapper/Sidebar/InfoPanel/Types" to="." method="_on_types_item_selected"]
