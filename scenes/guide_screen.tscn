@@ -4,7 +4,6 @@
 [ext_resource type="Script" path="res://scenes/guide.gd" id="1_141rj"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_xjjh2"]
 [ext_resource type="Script" path="res://scenes/region_manager.gd" id="3_gewl8"]
-[ext_resource type="Shader" path="res://assets/background.gdshader" id="5_22s6p"]
 [ext_resource type="Theme" uid="uid://ykp3sijrtrkk" path="res://main_theme.tres" id="6_drfbh"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="6_qrmke"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_g86ti"]
@@ -14,10 +13,14 @@
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_db4s3"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3i4k8"]
-shader = ExtResource("5_22s6p")
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rfskh"]
 
-[node name="GuideScreen" type="Control" node_paths=PackedStringArray("region_info", "type_dropdown", "description_label", "summary_tooltip")]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mu5s2"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+
+[node name="GuideScreen" type="Control" node_paths=PackedStringArray("region_info", "type_dropdown", "description_label", "summary_tooltip", "tab_container")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,9 +32,10 @@ size_flags_vertical = 3
 mouse_filter = 1
 script = ExtResource("1_141rj")
 region_info = NodePath("ProjectWrapper/BrainPanel/Control/Brain")
-type_dropdown = NodePath("ProjectWrapper/Sidebar/InfoPanel/Types")
-description_label = NodePath("ProjectWrapper/Sidebar/InfoPanel/DescriptionContainer/Description")
+type_dropdown = NodePath("ProjectWrapper/Sidebar/InnerSidebar/Types Overview/Types")
+description_label = NodePath("RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper/Title")
 summary_tooltip = NodePath("TooltipContainer")
+tab_container = NodePath("ProjectWrapper/Sidebar/InnerSidebar")
 metadata/_edit_horizontal_guides_ = []
 metadata/_edit_vertical_guides_ = [214.0]
 
@@ -42,6 +46,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+split_offset = 900
 
 [node name="BrainPanel" type="CenterContainer" parent="ProjectWrapper"]
 custom_minimum_size = Vector2(639, 0)
@@ -52,7 +57,7 @@ layout_mode = 2
 mouse_filter = 1
 
 [node name="Brain" type="Node2D" parent="ProjectWrapper/BrainPanel/Control" node_paths=PackedStringArray("area")]
-scale = Vector2(1.5, 1.5)
+scale = Vector2(1.3, 1.3)
 script = ExtResource("3_gewl8")
 area = NodePath("BrainRegions/RegionsArea")
 
@@ -317,54 +322,31 @@ width = 5.0
 default_color = Color(0, 0, 0, 1)
 antialiased = true
 
-[node name="Sidebar" type="Control" parent="ProjectWrapper"]
+[node name="Sidebar" type="PanelContainer" parent="ProjectWrapper"]
 layout_mode = 2
 
 [node name="SidebarBackground" type="ColorRect" parent="ProjectWrapper/Sidebar"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 mouse_filter = 2
 color = Color(0.2, 0.290196, 0.513726, 1)
 
-[node name="InfoPanel" type="VBoxContainer" parent="ProjectWrapper/Sidebar"]
-material = SubResource("ShaderMaterial_3i4k8")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="InnerSidebar" type="TabContainer" parent="ProjectWrapper/Sidebar"]
+layout_mode = 2
 
-[node name="Types" type="OptionButton" parent="ProjectWrapper/Sidebar/InfoPanel"]
+[node name="Types Overview" type="VBoxContainer" parent="ProjectWrapper/Sidebar/InnerSidebar"]
+layout_mode = 2
+
+[node name="Types" type="OptionButton" parent="ProjectWrapper/Sidebar/InnerSidebar/Types Overview"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 size_flags_stretch_ratio = 2.03
 
-[node name="DescriptionContainer" type="PanelContainer" parent="ProjectWrapper/Sidebar/InfoPanel"]
-layout_mode = 2
-size_flags_vertical = 3
-theme = ExtResource("6_drfbh")
-
-[node name="Description" type="RichTextLabel" parent="ProjectWrapper/Sidebar/InfoPanel/DescriptionContainer"]
-layout_mode = 2
-focus_mode = 2
-theme = ExtResource("6_drfbh")
-bbcode_enabled = true
-text = "This region is home to mirror neurons which are special cells using these cells we can watch a person perform a task or behave in a certain way and then mimic that person to quickly learn the task or act as if we are like them these cells also fire when we imagine doing something but don't actually act. This region acts as our minds very own Star Trek Hollow deck a place where we can play out real life and fanciful events.
-	here's how it works we select the context which might be in the immediate situation before us a future event such as upcoming tests or race or a historical or imaginative context such as a childhood birthday party or ancient Rome then we play out the simulation perhaps asking what it this region does its best to supply details and simulate what would likely happen thus we can use this region to make sensible guesses consider the words car Road and Flat Tire now imagine a larger scene or several scenes perhaps an accident occurred who or what else is in the see how do people feel don't really answer the question just play as if it can also Supply you with additional words that fit the implied context, such as traffic, ambulance, or rain.
-	<br> <br> People who under use this region may display a lack of empathy and find it hard to learn by imitation or inference puzzle over other's motives dislike what if questions and brainstorming and or feel challenged to think outside the box.
-	this region is not analytical that we may feel like we are analyzing as we explore a myriad of scenarios simply it helps us make smart guesses based on context and imitation people who use this region with skill are able to quickly build rapport with others and make insightful guesses about people without having any particular reason or theory in mind their mental stimulation simply reveal what they need to know using this region May frustrate us Sometimes using it can be fun and provide ideas for why people act as they do however our inferences maybe wrong moreover while this region provides an appearance of empathy and Rapport the active mirroring others does not mean we truly care"
-selection_enabled = true
-
-[node name="StateChartDebugger" parent="ProjectWrapper/Sidebar" instance=ExtResource("2_xjjh2")]
+[node name="StateChartDebugger" parent="ProjectWrapper/Sidebar/InnerSidebar" instance=ExtResource("2_xjjh2")]
+visible = false
 custom_minimum_size = Vector2(483.195, 0)
-layout_mode = 1
-initial_node_to_watch = NodePath("../../../StateChart")
+layout_mode = 2
+initial_node_to_watch = NodePath("../../../../StateChart")
 
 [node name="TooltipContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -381,6 +363,65 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Testing text hello world"
 
+[node name="RegionDescriptionOverlay" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("6_drfbh")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rfskh")
+
+[node name="RegionDescriptionBlackout" type="ColorRect" parent="RegionDescriptionOverlay"]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.537255)
+
+[node name="MarginContainer" type="MarginContainer" parent="RegionDescriptionOverlay"]
+layout_mode = 2
+theme = ExtResource("6_drfbh")
+
+[node name="RegionDescriptionBackground" type="ColorRect" parent="RegionDescriptionOverlay/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.2, 0.290196, 0.513726, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="RegionDescriptionOverlay/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mu5s2")
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="DescriptionWrapper" type="VBoxContainer" parent="RegionDescriptionOverlay/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("6_drfbh")
+
+[node name="Title" type="RichTextLabel" parent="RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper"]
+clip_contents = false
+layout_mode = 2
+theme = ExtResource("6_drfbh")
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "This is a Title text."
+fit_content = true
+scroll_active = false
+selection_enabled = true
+
+[node name="Description2" type="RichTextLabel" parent="RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper"]
+layout_mode = 2
+theme = ExtResource("6_drfbh")
+bbcode_enabled = true
+text = "This region is home to mirror neurons which are special cells using these cells we can watch a person perform a task or behave in a certain way and then mimic that person to quickly learn the task or act as if we are like them these cells also fire when we imagine doing something but don't actually act. This region acts as our minds very own Star Trek Hollow deck a place where we can play out real life and fanciful events.
+	here's how it works we select the context which might be in the immediate situation before us a future event such as upcoming tests or race or a historical or imaginative context such as a childhood birthday party or ancient Rome then we play out the simulation perhaps asking what it this region does its best to supply details and simulate what would likely happen thus we can use this region to make sensible guesses consider the words car Road and Flat Tire now imagine a larger scene or several scenes perhaps an accident occurred who or what else is in the see how do people feel don't really answer the question just play as if it can also Supply you with additional words that fit the implied context, such as traffic, ambulance, or rain.
+	<br> <br> People who under use this region may display a lack of empathy and find it hard to learn by imitation or inference puzzle over other's motives dislike what if questions and brainstorming and or feel challenged to think outside the box.
+	this region is not analytical that we may feel like we are analyzing as we explore a myriad of scenarios simply it helps us make smart guesses based on context and imitation people who use this region with skill are able to quickly build rapport with others and make insightful guesses about people without having any particular reason or theory in mind their mental stimulation simply reveal what they need to know using this region May frustrate us Sometimes using it can be fun and provide ideas for why people act as they do however our inferences maybe wrong moreover while this region provides an appearance of empathy and Rapport the active mirroring others does not mean we truly care"
+fit_content = true
+scroll_active = false
+selection_enabled = true
+
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("6_qrmke")
 track_in_editor = true
@@ -395,31 +436,69 @@ initial_state = NodePath("TypeOverviews")
 [node name="TypeOverviews" type="Node" parent="StateChart/Root/Mode"]
 script = ExtResource("8_3nrxm")
 
+[node name="ToWholeBrain" type="Node" parent="StateChart/Root/Mode/TypeOverviews"]
+script = ExtResource("9_u1hkt")
+to = NodePath("../../WholeBrainStates")
+event = &"to_whole"
+
+[node name="ToSimulated" type="Node" parent="StateChart/Root/Mode/TypeOverviews"]
+script = ExtResource("9_u1hkt")
+to = NodePath("../../SimulatedActivity")
+event = &"to_simulated"
+
 [node name="WholeBrainStates" type="Node" parent="StateChart/Root/Mode"]
 script = ExtResource("8_3nrxm")
+
+[node name="ToTypes" type="Node" parent="StateChart/Root/Mode/WholeBrainStates"]
+script = ExtResource("9_u1hkt")
+to = NodePath("../../TypeOverviews")
+event = &"to_types"
 
 [node name="SimulatedActivity" type="Node" parent="StateChart/Root/Mode"]
 script = ExtResource("8_3nrxm")
 
-[node name="On_Off" type="Node" parent="StateChart/Root"]
+[node name="Overlay" type="Node" parent="StateChart/Root"]
 script = ExtResource("7_g86ti")
-initial_state = NodePath("Playing")
+initial_state = NodePath("NoOverlay")
 
-[node name="Playing" type="Node" parent="StateChart/Root/On_Off"]
+[node name="NoOverlay" type="Node" parent="StateChart/Root/Overlay"]
 script = ExtResource("8_3nrxm")
 
-[node name="ToPaused" type="Node" parent="StateChart/Root/On_Off/Playing"]
+[node name="ToPause" type="Node" parent="StateChart/Root/Overlay/NoOverlay"]
 script = ExtResource("9_u1hkt")
-to = NodePath("../../Paused")
-event = &"pause_pressed"
+to = NodePath("../../PauseOverlay")
+event = &"to_pause"
 
-[node name="Paused" type="Node" parent="StateChart/Root/On_Off"]
+[node name="ToRegion" type="Node" parent="StateChart/Root/Overlay/NoOverlay"]
+script = ExtResource("9_u1hkt")
+to = NodePath("../../RegionOverlay")
+event = &"to_region"
+
+[node name="PauseOverlay" type="Node" parent="StateChart/Root/Overlay"]
 script = ExtResource("8_3nrxm")
 
-[node name="ToPlaying" type="Node" parent="StateChart/Root/On_Off/Paused"]
+[node name="ToNone" type="Node" parent="StateChart/Root/Overlay/PauseOverlay"]
 script = ExtResource("9_u1hkt")
-to = NodePath("../../Playing")
-event = &"pause_pressed"
+to = NodePath("../../NoOverlay")
+event = &"to_none"
+
+[node name="ToRegion" type="Node" parent="StateChart/Root/Overlay/PauseOverlay"]
+script = ExtResource("9_u1hkt")
+to = NodePath("../../RegionOverlay")
+event = &"to_region"
+
+[node name="RegionOverlay" type="Node" parent="StateChart/Root/Overlay"]
+script = ExtResource("8_3nrxm")
+
+[node name="ToNone" type="Node" parent="StateChart/Root/Overlay/RegionOverlay"]
+script = ExtResource("9_u1hkt")
+to = NodePath("../../NoOverlay")
+event = &"to_none"
+
+[node name="ToPause" type="Node" parent="StateChart/Root/Overlay/RegionOverlay"]
+script = ExtResource("9_u1hkt")
+to = NodePath("../../PauseOverlay")
+event = &"to_pause"
 
 [connection signal="typeSelected" from="." to="ProjectWrapper/BrainPanel/Control/Brain" method="_on_guide_screen_type_selected"]
 [connection signal="regionSelected" from="ProjectWrapper/BrainPanel/Control/Brain" to="." method="_on_brain_region_selected"]
@@ -427,4 +506,4 @@ event = &"pause_pressed"
 [connection signal="input_event" from="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea" to="ProjectWrapper/BrainPanel/Control/Brain" method="_on_regions_area_input_event"]
 [connection signal="mouse_shape_entered" from="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea" to="ProjectWrapper/BrainPanel/Control/Brain" method="_on_regions_area_mouse_shape_entered"]
 [connection signal="mouse_shape_exited" from="ProjectWrapper/BrainPanel/Control/Brain/BrainRegions/RegionsArea" to="ProjectWrapper/BrainPanel/Control/Brain" method="_on_regions_area_mouse_shape_exited"]
-[connection signal="item_selected" from="ProjectWrapper/Sidebar/InfoPanel/Types" to="." method="_on_types_item_selected"]
+[connection signal="item_selected" from="ProjectWrapper/Sidebar/InnerSidebar/Types Overview/Types" to="." method="_on_types_item_selected"]

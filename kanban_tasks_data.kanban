@@ -38,18 +38,17 @@
 			"tasks": [
 				"2c4d1366-2faf-4408-aff3-cab5e9bcf4b4",
 				"2bc026ba-b03e-4386-af7e-18f021e6d0b5",
-				"c9f3568d-2312-4053-ad2b-6e9bcb132eba",
 				"f18cb942-ee41-416c-be3f-8053143951e7",
 				"9f89c026-4760-4a29-b8d0-9412cec8bb97",
-				"286b8057-60a5-4359-ab32-6706cc6f6135"
+				"286b8057-60a5-4359-ab32-6706cc6f6135",
+				"10db3cda-a858-4864-a7be-5ee3728b84f0"
 			]
 		},
 		{
 			"uuid": "df331366-0e4c-4652-9046-de2040bdad75",
 			"title": "Doing",
 			"tasks": [
-				"e14dd98c-61b4-4ecb-9602-e395a253209a",
-				"10db3cda-a858-4864-a7be-5ee3728b84f0"
+				"e14dd98c-61b4-4ecb-9602-e395a253209a"
 			]
 		},
 		{
@@ -63,7 +62,8 @@
 				"250cbce5-210a-4591-8ff8-72174f277a1c",
 				"1bc9c3b5-7fa5-41fc-a15f-bcbc94a2e220",
 				"d1be2304-1929-41be-948e-7685f70cc9a4",
-				"f33b6867-c5bc-4d20-ab8b-95c63a3ee54d"
+				"f33b6867-c5bc-4d20-ab8b-95c63a3ee54d",
+				"c9f3568d-2312-4053-ad2b-6e9bcb132eba"
 			]
 		},
 		{
@@ -227,10 +227,26 @@
 			"steps": [
 				{
 					"details": "Draw a State Diagram on Trilium",
-					"done": false
+					"done": true
 				},
 				{
 					"details": "Draw a Wireframe of each screen and state on trilium",
+					"done": true
+				},
+				{
+					"details": "Implement Screens from Trilium",
+					"done": false
+				},
+				{
+					"details": "Pause Menu",
+					"done": false
+				},
+				{
+					"details": "Region Menu",
+					"done": false
+				},
+				{
+					"details": "Whole Brain State Menu",
 					"done": false
 				}
 			]

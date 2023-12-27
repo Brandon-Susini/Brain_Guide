@@ -1,3 +1,12 @@
+LEFT OFF:
+I need to figure out how to limit the processing of signals to when the app is NOT 
+in the paused or region description states. ** How to stop processing signals?
+
+Recreate the app flow utilizing the new node structure.
+
+
+
+
 Guide Screen:
 	Houses main script that sets up ui elements, and communicates events.
 	

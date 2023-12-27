@@ -7,6 +7,9 @@
 [node name="BrainRegions" type="CanvasGroup"]
 script = ExtResource("1_1tjyd")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(6, -38)
+
 [node name="Fp1" type="Polygon2D" parent="."]
 material = SubResource("CanvasItemMaterial_db4s3")
 position = Vector2(-51, -210)

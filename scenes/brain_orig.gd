@@ -4,7 +4,6 @@ extends CanvasGroup
 @onready var collision_shape = $O2.polygon
 
 func _ready():
-	
 	for i in range(len(collision_shape)):
 		print("Before -> ", collision_shape[i])
 		collision_shape.set(i,collision_shape[i] + ($O2.position)) #+ brain_offset))
@@ -19,7 +18,7 @@ func _ready():
 func _process(delta):
 	if Geometry2D.is_point_in_polygon(get_global_mouse_position(),collision_shape):
 		$O2.color = Color.PURPLE
-		print("Something")
+		#print("Something")
 	else:
 		$O2.color = Color.WHITE
 	pass

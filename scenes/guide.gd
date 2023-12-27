@@ -16,9 +16,13 @@ signal typeSelected
 #State Chart Variables
 @onready var state_chart:StateChart = $StateChart
 
+#Tab Bar Variables
+@export var tab_container:TabContainer
+
 var timePassed = 0
 
 func _ready():
+	#tab_container.set_tab_hidden(1,true)
 	type_dropdown.add_item("None")
 	for type in region_info.types:
 		type_dropdown.add_item(type)
@@ -32,7 +36,7 @@ func loadDescriptionText():
 
 func _process(delta):
 	if Input.is_action_just_pressed("pause"):
-		state_chart.send_event.call_deferred("pause_pressed")
+		state_chart.send_event.call_deferred("to_pause")
 		
 	var mouse_position: Vector2 = get_global_mouse_position()
 	summary_tooltip.position = Vector2(mouse_position.x + tooltip_offset.x,mouse_position.y+tooltip_offset.y)
@@ -49,12 +53,13 @@ func _on_types_item_selected(index):
 
 func _on_brain_regions_ready():
 	#print(region_info.getRegionByName("F7"))
-	description_label.text = region_info.getRegionDescription("F7")
+	#description_label.text = region_info.getRegionDescription("F7")
+	pass
 
 
 
 
 func _on_brain_region_selected(region):
-	state_chart.send_event("toRegionSelected")
-	description_label.text = region_info.getRegionDescription(region)
+	state_chart.send_event("to_region")
+	#description_label.text = region_info.getRegionDescription(region)
 	pass # Replace with function body.
