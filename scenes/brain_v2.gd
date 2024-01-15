@@ -282,8 +282,7 @@ func _ready():
 	setActivityByType("None")
 
 func _draw():
-	draw_circle(Vector2(0,0),150,Color.BLUE)
-	draw_polygon(new_poly,[Color.RED])
+	draw_polygon(new_poly,[Color.YELLOW])
 
 func y_axis_reflection(poly: PackedVector2Array):
 	var reflected_poly = PackedVector2Array()

@@ -16,13 +16,22 @@ signal typeSelected
 #State Chart Variables
 @onready var state_chart:StateChart = $StateChart
 
+#RegionOverlay Variables
+@onready var region_overlay: PanelContainer = $RegionDescriptionOverlay
+
 #Tab Bar Variables
 @export var tab_container:TabContainer
+
+
+
+@export var cursor: Sprite2D
+
 
 var timePassed = 0
 
 func _ready():
 	#tab_container.set_tab_hidden(1,true)
+	region_overlay.visible = false
 	type_dropdown.add_item("None")
 	for type in region_info.types:
 		type_dropdown.add_item(type)
@@ -34,7 +43,12 @@ func loadDescriptionText():
 	pass
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
+func _draw():
+	#draw_circle(Vector2(0,0),150,Color.RED)
+	pass
+
 func _process(delta):
+	cursor.global_position = get_global_mouse_position()
 	if Input.is_action_just_pressed("pause"):
 		state_chart.send_event.call_deferred("to_pause")
 		
@@ -62,4 +76,42 @@ func _on_brain_regions_ready():
 func _on_brain_region_selected(region):
 	state_chart.send_event("to_region")
 	#description_label.text = region_info.getRegionDescription(region)
+	pass # Replace with function body.
+
+
+func _on_region_overlay_state_entered():
+	region_overlay.visible = true
+	pass # Replace with function body.
+
+
+func _on_region_overlay_state_exited():
+	region_overlay.visible = false
+	pass # Replace with function body.
+
+
+func _on_region_overlay_state_processing(delta):
+	if Input.is_action_just_pressed("pause"):
+		state_chart.send_event("to_none")
+	pass # Replace with function body.
+
+
+func _on_no_overlay_state_processing(delta):
+	if Input.is_action_just_pressed("pause"):
+		state_chart.send_event("to_pause")
+	pass # Replace with function body.
+
+
+func _on_pause_overlay_state_entered():
+	
+	pass # Replace with function body.
+
+
+func _on_pause_overlay_state_processing(delta):
+	if Input.is_action_just_pressed("pause"):
+		state_chart.send_event.call_deferred("to_none")
+	pass # Replace with function body.
+
+
+func _on_yes_event_received(event):
+	print("event")
 	pass # Replace with function body.

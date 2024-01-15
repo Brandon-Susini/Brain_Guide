@@ -222,7 +222,7 @@ var region_descriptions = {
 }
 
 # Area2D that contains all the region polygons and colliders
-@export var area: Area2D
+@onready var area: Area2D = $BrainRegions/RegionsArea
 # Array of Polygon2D's that serve as the brain regions.
 var regions: Array[Node]
 # Array of colors that represent different activity levels
@@ -262,38 +262,40 @@ var restoreColor: Color = colors[5]
 # Start of functions  **********************************************************
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	for i in range(len(collision_shape)):
-		#print("Before -> ", collision_shape[i])
-		collision_shape.set(i,(collision_shape[i] + (region.position)) + brain_offset)
-		#print("After -> ", collision_shape[i])
-	print("Brain Offset:")
-	print(brain_offset)
-	print("Original Collision Shape:")
-	print(collision_shape)
+	# for i in range(len(collision_shape)):
+	# 	#print("Before -> ", collision_shape[i])
+	# 	collision_shape.set(i,(collision_shape[i] + (region.position)) + brain_offset)
+	# 	#print("After -> ", collision_shape[i])
+	# print("Brain Offset:")
+	# print(brain_offset)
+	# print("Original Collision Shape:")
+	# print(collision_shape)
 	new_poly = y_axis_reflection(collision_shape_orig)
 	print("New Poly:")
 	print(new_poly)
-	#poly1Decompose = Geometry2D.decompose_polygon_in_convex(collision_shape)
-	#print(poly1Decompose)
 
 	# Load all the polygon2D's into an array
 	setupRegions()
+	# Generate all the polygons reflection.
+	# TODO: Delete the right side regions and remake them with the printed out reflection arrays.
+
+	for r in regions:
+		print(r.name)
+		y_axis_reflection(r.polygon)
 	# Set all regions color to default
 	setActivityByType("None")
 
 func _draw():
-	draw_circle(Vector2(0,0),150,Color.BLUE)
 	draw_polygon(new_poly,[Color.RED])
 
 func y_axis_reflection(poly: PackedVector2Array):
 	var reflected_poly = PackedVector2Array()
 	for point in poly:
-		var newPoint = Vector2(point.x * -1,point.y)
+		var newPoint = Vector2(point.x * -1,point.y) + region.position
 		print("Original Point: ", point, "---> New Point: ",newPoint)
 		reflected_poly.append(newPoint)
 
 	return reflected_poly
-	pass
  
  
 #endregion: Region Detection Code to fully develop

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7orj46hhghlr"]
+
+[ext_resource type="PackedScene" uid="uid://pu28el6n6ols" path="res://scenes/brain_v2.tscn" id="1_m560l"]
+[ext_resource type="Script" path="res://scenes/brain_v3.gd" id="2_0aa8y"]
+
+[node name="Brain" instance=ExtResource("1_m560l")]
+script = ExtResource("2_0aa8y")

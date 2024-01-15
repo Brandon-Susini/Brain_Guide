@@ -36,6 +36,7 @@
 			"uuid": "a2c36acd-f630-48ce-aef1-1ed9cfa3c594",
 			"title": "Todo",
 			"tasks": [
+				"e14dd98c-61b4-4ecb-9602-e395a253209a",
 				"2c4d1366-2faf-4408-aff3-cab5e9bcf4b4",
 				"2bc026ba-b03e-4386-af7e-18f021e6d0b5",
 				"f18cb942-ee41-416c-be3f-8053143951e7",
@@ -48,7 +49,7 @@
 			"uuid": "df331366-0e4c-4652-9046-de2040bdad75",
 			"title": "Doing",
 			"tasks": [
-				"e14dd98c-61b4-4ecb-9602-e395a253209a"
+				"29f87889-2f3c-41c1-9ec8-16d8cd0588d7"
 			]
 		},
 		{
@@ -63,7 +64,8 @@
 				"1bc9c3b5-7fa5-41fc-a15f-bcbc94a2e220",
 				"d1be2304-1929-41be-948e-7685f70cc9a4",
 				"f33b6867-c5bc-4d20-ab8b-95c63a3ee54d",
-				"c9f3568d-2312-4053-ad2b-6e9bcb132eba"
+				"c9f3568d-2312-4053-ad2b-6e9bcb132eba",
+				"190e4096-81a1-4dff-9c5b-4ef7c77df254"
 			]
 		},
 		{
@@ -234,16 +236,12 @@
 					"done": true
 				},
 				{
-					"details": "Implement Screens from Trilium",
-					"done": false
-				},
-				{
 					"details": "Pause Menu",
 					"done": false
 				},
 				{
 					"details": "Region Menu",
-					"done": false
+					"done": true
 				},
 				{
 					"details": "Whole Brain State Menu",
@@ -253,10 +251,71 @@
 		},
 		{
 			"uuid": "10db3cda-a858-4864-a7be-5ee3728b84f0",
-			"title": "Complete the Pause functionality",
+			"title": "Make Pause Menu",
 			"description": "Build a pause menu that explains how to use the currently selected mode as well as general controls.",
 			"category": "6e988cbb-7604-481d-a30a-d8dc58383b36",
-			"steps": []
+			"steps": [
+				{
+					"details": "Toggle the Pause Menu when pressing ESC & NOT in region overlay.",
+					"done": true
+				},
+				{
+					"details": "Change the state of the program to \"Overlay->PauseOverlay\"",
+					"done": true
+				},
+				{
+					"details": "Use send_event instead of emitting signals for region area entered",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "190e4096-81a1-4dff-9c5b-4ef7c77df254",
+			"title": "Finish draft for region selection",
+			"description": "",
+			"category": "6e988cbb-7604-481d-a30a-d8dc58383b36",
+			"steps": [
+				{
+					"details": "Set the Region Overlay to be hidden on startup",
+					"done": true
+				},
+				{
+					"details": "Toggle the Region Description when pressing ESC or clicking on a region.",
+					"done": true
+				},
+				{
+					"details": "Change the state of the program to \"Overlay->RegionOverlay\"",
+					"done": true
+				}
+			]
+		},
+		{
+			"uuid": "29f87889-2f3c-41c1-9ec8-16d8cd0588d7",
+			"title": "Rework region hover logic",
+			"description": "Left off trying to use \"decompose_polygon_in_convex to make a single polygon from multiple.\nThe issue was the offset not lining up so try and add back in the brain objects offset to get accurate polygon detection region.",
+			"category": "1dc654a7-9809-487c-a3a4-3f0b4a8331f4",
+			"steps": [
+				{
+					"details": "Test if Merge Polygons or decompose polygons will fix dead zones in convex polygons (like P4)",
+					"done": false
+				},
+				{
+					"details": "Replace BrainManager with brain_orig?",
+					"done": false
+				},
+				{
+					"details": "Edit each regions points to be right on the border of the brain outlines",
+					"done": false
+				},
+				{
+					"details": "Write function to adjust each region collision shape points",
+					"done": false
+				},
+				{
+					"details": "Write logic to handle currently hovered region one at a time",
+					"done": false
+				}
+			]
 		}
 	],
 	"layout": {
