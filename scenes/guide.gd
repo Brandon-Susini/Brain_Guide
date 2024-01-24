@@ -2,7 +2,7 @@ extends Control
 
 signal typeSelected
 
-@export var region_info: Node2D
+@export var brain: Node2D
 
 
 @export var type_dropdown: OptionButton
@@ -10,7 +10,8 @@ signal typeSelected
 @export var scale_factor: float = 1
 
 #Tooltip variables
-@export var summary_tooltip: PanelContainer
+@export var tooltip_container: PanelContainer
+@onready var tooltip_node := tooltip_container.get_node("SummaryTooltip")
 @export var tooltip_offset: Vector2 = Vector2(20,10)
 
 #State Chart Variables
@@ -24,6 +25,7 @@ signal typeSelected
 
 
 
+
 @export var cursor: Sprite2D
 
 
@@ -33,7 +35,7 @@ func _ready():
 	#tab_container.set_tab_hidden(1,true)
 	region_overlay.visible = false
 	type_dropdown.add_item("None")
-	for type in region_info.types:
+	for type in brain.types:
 		type_dropdown.add_item(type)
 	
 
@@ -47,71 +49,67 @@ func _draw():
 	#draw_circle(Vector2(0,0),150,Color.RED)
 	pass
 
+
+# NOTE: Anything that should happen every tick no matter what the state goes here.
+
 func _process(delta):
 	cursor.global_position = get_global_mouse_position()
-	if Input.is_action_just_pressed("pause"):
-		state_chart.send_event.call_deferred("to_pause")
 		
 	var mouse_position: Vector2 = get_global_mouse_position()
-	summary_tooltip.position = Vector2(mouse_position.x + tooltip_offset.x,mouse_position.y+tooltip_offset.y)
-	get_tree().root.content_scale_factor = scale_factor
-	if description_label.visible_ratio < 1:
-		description_label.visible_ratio = timePassed
-		timePassed += delta *0.9
+	tooltip_container.position = Vector2(mouse_position.x + tooltip_offset.x,mouse_position.y+tooltip_offset.y)
+	
+
+# State Processing Functions
+# NOTE: Anything that should only happen every tick depending on state goes here.
+
+func _unpaused_process(_delta):
+	pass
+
+func _paused_process(_delta):
+	pass
+
+
+# State Input Functions
+# NOTE: Any events that should be listened to depending on state goes here.
+
+func _unpaused_input(_event):
+	if Input.is_action_just_pressed("pause"):
+		state_chart.send_event.call_deferred("to_pause")
+	if brain.is_mouse_in_brain_area():
+		if(_event is InputEventMouseButton and _event.pressed == true):
+			print("Brain clicked.")
+		if(_event is InputEventMouseMotion):
+			#TODO: Implement a better way to handle UI changes.
+
+			var hovered_region = brain.handle_region_hover()
+			if typeof(hovered_region) != TYPE_BOOL:
+				tooltip_container.visible = true
+				tooltip_node.text = hovered_region.name
+			else:
+				tooltip_container.visible = false
+	else:
+		tooltip_container.visible = false
+
+
+func _paused_input(_event):
+	tooltip_container.visible = false
+	if Input.is_action_just_pressed("select"):
+		print("Cannot select right now")
+	if Input.is_action_just_pressed("pause"):
+		state_chart.send_event.call_deferred("to_none")
 
 
 func _on_types_item_selected(index):
 	emit_signal("typeSelected",type_dropdown.get_item_text(index))
 	
 
-
-func _on_brain_regions_ready():
-	#print(region_info.getRegionByName("F7"))
-	#description_label.text = region_info.getRegionDescription("F7")
-	pass
-
-
-
-
-func _on_brain_region_selected(region):
-	state_chart.send_event("to_region")
-	#description_label.text = region_info.getRegionDescription(region)
+func _on_unpause():
+	Engine.time_scale = 1.0
+	brain.process_mode = Node.PROCESS_MODE_ALWAYS
 	pass # Replace with function body.
 
 
-func _on_region_overlay_state_entered():
-	region_overlay.visible = true
-	pass # Replace with function body.
-
-
-func _on_region_overlay_state_exited():
-	region_overlay.visible = false
-	pass # Replace with function body.
-
-
-func _on_region_overlay_state_processing(delta):
-	if Input.is_action_just_pressed("pause"):
-		state_chart.send_event("to_none")
-	pass # Replace with function body.
-
-
-func _on_no_overlay_state_processing(delta):
-	if Input.is_action_just_pressed("pause"):
-		state_chart.send_event("to_pause")
-	pass # Replace with function body.
-
-
-func _on_pause_overlay_state_entered():
-	
-	pass # Replace with function body.
-
-
-func _on_pause_overlay_state_processing(delta):
-	if Input.is_action_just_pressed("pause"):
-		state_chart.send_event.call_deferred("to_none")
-	pass # Replace with function body.
-
-
-func _on_yes_event_received(event):
-	print("event")
+func _on_pause():
+	Engine.time_scale = 0.0
+	brain.process_mode = Node.PROCESS_MODE_DISABLED
 	pass # Replace with function body.

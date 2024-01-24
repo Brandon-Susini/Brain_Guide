@@ -12,7 +12,7 @@ signal regionSelected
 
 
 # Array of all personality type names
-@export var types = [
+@onready var types = [
 	"NeTi",
 	"NeFi",
 	"FiSe",
@@ -31,7 +31,7 @@ signal regionSelected
 	"SeTi",
 ]
 # Dictonary containing all activity level information for the types
-@export var intensity = {
+@onready var intensity = {
 	"NeTi": [
 		["F3", "F4", "C3", "P3"],
 		["F8", "T5", "T6", "O1"],
@@ -130,7 +130,7 @@ signal regionSelected
 	],
 }
 # Dictionary containing all region summaries
-@export var region_summaries = {
+@onready var region_summaries = {
 	"Fp1": ["Provide a reason.", "Decide between options.", "Detect an error.", "Dismiss negative thoughts/information."],
 	"Fp2": ["Notice which step you are on in a task.", "Perceive that you are done brainstorming", 'Consider a new or unpleasant idea.'],
 	"F7": ["Imagine another place or time.", "Mirror other's behavior.", "Ask 'maybe' or 'what-if'.", "Mentally play out a situation."],
@@ -222,9 +222,16 @@ var region_descriptions = {
 }
 
 # Area2D that contains all the region polygons and colliders
-@onready var area: Area2D = $BrainRegions/RegionsArea
+@onready var region_group: CanvasGroup = $BrainRegions
+@onready var brain_area: CollisionPolygon2D = $BrainRegions/BrainArea/BrainCollision
+@onready var brain_area_offset: PackedVector2Array
+
+@onready var brain_offset = position
+
+@onready var region_offsets:Dictionary = {}
 # Array of Polygon2D's that serve as the brain regions.
-var regions: Array[Node]
+var regions: Array
+@onready var current_region_activity: Dictionary = {}
 # Array of colors that represent different activity levels
 var colors = [
 	Color(0,0,255,1),
@@ -246,155 +253,96 @@ var restoreColor: Color = colors[5]
 @export var state_chart: StateChart
 
 
-# NOTE: Point Detection Variables
 
-#region: Region Detection Code to fully develop
 
-#TODO: Loop through all left side polygons and get the reflected point arrays.
+#TODO: Remove collision shapes since the signals don't work correctly.
 
-@onready var brain_offset: Vector2 = position
-@onready var region_container = $BrainRegions/RegionsArea
-@onready var region = region_container.get_node("P3")
-@onready var collision_shape = region.polygon
-@onready var collision_shape_orig = PackedVector2Array(collision_shape)
-@onready var new_poly: PackedVector2Array
 
 # Start of functions  **********************************************************
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# for i in range(len(collision_shape)):
-	# 	#print("Before -> ", collision_shape[i])
-	# 	collision_shape.set(i,(collision_shape[i] + (region.position)) + brain_offset)
-	# 	#print("After -> ", collision_shape[i])
-	# print("Brain Offset:")
-	# print(brain_offset)
-	# print("Original Collision Shape:")
-	# print(collision_shape)
-	new_poly = y_axis_reflection(collision_shape_orig)
-	print("New Poly:")
-	print(new_poly)
+	for point in brain_area.polygon:
+		brain_area_offset.append(point + brain_offset)
 
-	# Load all the polygon2D's into an array
-	setupRegions()
-	# Generate all the polygons reflection.
-	# TODO: Delete the right side regions and remake them with the printed out reflection arrays.
+	
+	#area.set_block_signals(true)
+	# Load all the polygon2D's into an array.
+	setup_regions()
+	for region in regions:
+		current_region_activity[region.name] = 0
 
-	for r in regions:
-		print(r.name)
-		y_axis_reflection(r.polygon)
+	
+	#print_debug(regions)
+	setup_polygon_offsets()
+	#print_debug(region_offsets["F7"])
 	# Set all regions color to default
-	setActivityByType("None")
+	set_activity_by_type("NeTi")
+	print(current_region_activity)
+	#switch_type()
 
 func _draw():
-	draw_polygon(new_poly,[Color.RED])
+	#draw_polygon(region_offsets["F7"],[Color.BLUE])
+	pass
 
-func y_axis_reflection(poly: PackedVector2Array):
-	var reflected_poly = PackedVector2Array()
-	for point in poly:
-		var newPoint = Vector2(point.x * -1,point.y) + region.position
-		print("Original Point: ", point, "---> New Point: ",newPoint)
-		reflected_poly.append(newPoint)
-
-	return reflected_poly
- 
- 
-#endregion: Region Detection Code to fully develop
-
-
-func setupRegions():
-	regions = area.get_children().filter(func(r): return r is Polygon2D)
+func setup_regions():
+	regions = region_group.get_children().filter(func(r): return r is Polygon2D)
 	emit_signal("regionsReady")
 
 
-func _process(delta):
-	if Input.is_action_just_pressed("select"):
-		print("Queing Redraw")
-		queue_redraw()
-	if Geometry2D.is_point_in_polygon(get_global_mouse_position(),collision_shape):
-		region.color = Color.PURPLE
-		#print("Something")
-	else:
-		region.color = Color.WHITE
+
+func _process(_delta):
+	var hovered = handle_region_hover()
+	
+	regions.map(func(r): r.color = colors[current_region_activity[r.name]])
+	if typeof(hovered) != TYPE_BOOL:
+		hovered.color = Color.PURPLE
 	pass
 
+func switch_type():
+	get_tree().create_timer(0.2).connect("timeout",switch_type)
+	set_activity_by_type(types.pick_random())
 
 
+func setup_polygon_offsets():
+	for region in regions:
+		var collision_shape:PackedVector2Array = PackedVector2Array()
+		var polygon = region.polygon
+		for i in range(len(region.polygon)):
+			#print("Before -> ", collision_shape[i])
+			var new_point: Vector2 = (polygon[i] + (region.position)) + brain_offset
+			collision_shape.append(new_point)
+			#print("After -> ", collision_shape[i])
+		region_offsets[region.name] = collision_shape
+
+
+func handle_region_hover():
+	var hovered = regions.filter(func(r): return Geometry2D.is_point_in_polygon(get_global_mouse_position(),region_offsets[r.name]))
+	if len(hovered) > 0:
+		return hovered[0]
+	else:
+		return false
+
+
+func is_mouse_in_brain_area():
+	return Geometry2D.is_point_in_polygon(get_global_mouse_position(),brain_area_offset)
+		
 # Setters ==================================================================================
 
+func set_region_activity(region,activity):
+	region.color = colors[activity]
 
+func set_activity_by_type(type):
+	if types.has(type):
+		for i in range(len(intensity[type])):
+			for region in intensity[type][i]:
+				current_region_activity[region] = i
+	else:
+		regions.map(func(r): r.color = colors[5])
 
-func setActivityByType(type:String):
-	# Check if the type selected is none
-	if type == "None":
-		for r in regions:
-			#Set all regions colors to default
-			r.color = colors[activity_stringToInt["none"]]
-			# Wait 0.03 seconds inbetween for a nice loading animation
-			await get_tree().create_timer(0.03).timeout
-		return
-		
-	# If the type isn't none, grab it's activity data from the intensity legend
-	var activity = intensity[type]
-	# Loop through all levels of activity. Low, Medium, High, Very High
-	for i in range(len(activity)):
-		# Set the regions color to the appropriate color for it's defined activity level
-		for region in activity[i]:
-			var r = getRegionByName(region)
-			r.color = colors[i]
-			await get_tree().create_timer(0.03).timeout
-			
-			
-# Takes in a region name and activity level (as a string) and sets the regions color appropriately.
-func setRegionActivity(region:String,activity):
-	getRegionByName(region).color = getActivityStringColor(activity)
-	pass
+# Getters =========================================================================================
 
-# Store the hovered regions color and change it to the hovered color.
-func setRegionHover():
-	restoreColor = getRegionByName(hoveredRegion).color
-	#setRegionActivity(hoveredRegion,"hovered")
-	
-	
-
-
-func unsetRegionHover(owner_name:String):
-	#getRegionByName(owner_name).color = restoreColor
-	hoveredRegion = ""
-
-# Set all regions to be black to make the loading animation look nicer.
-func resetRegionColors():
-	for r in regions:
-		r.color = Color.BLACK
-
-
-
-# Getters **********************************************************
-
-
-
-# Get a region object by name
-func getRegionByName(region:String):
-	for r in regions:
-		if r.name == region:
-			return r
-	return null
-
-#Get a region description by name
-func getRegionDescription(region:String):
-	return region_descriptions[region]
-
-#Get the color of a given activity by name
-func getActivityStringColor(activity:String):
-	return colors[activity_stringToInt[activity]]
-	
-#Get the color of a given activity by number level. 0 - low -> 3 - Very high, 4 - hovered, 5 - none 
-func getActivityIntColor(activity:int):
-	return colors[activity_intToString[activity]]
-	
-
-func getHoveredRegion():
-	return hoveredRegion
-	pass
+func get_region_by_name(name):
+	return regions.filter(func(r): return r.name == name)[0]
 
 
 # Signal Events **********************************************************
@@ -404,35 +352,25 @@ func getHoveredRegion():
 #Set the regions activity levels once a new type is selected.
 func _on_guide_screen_type_selected(typeSelected):
 	print("Type Selected:", typeSelected)
-	resetRegionColors()
-	setActivityByType(typeSelected)
+	#resetRegionColors()
+	#setActivityByType(typeSelected)
 	pass # Replace with function body.
 
 
 # Listen for regions being clicked.
-func _on_regions_area_input_event(viewport, event, shape_idx):
-	var shape_owner_id: int = area.shape_find_owner(shape_idx)
-	var shape_owner: Object = area.shape_owner_get_owner(shape_owner_id)
-	var shape_name: String = shape_owner.name.get_slice("Coll",0)
-	if(event is InputEventMouseButton and event.pressed == true):
-		hoveredRegion = shape_name
-		#emit_signal("regionSelected",shape_owner.name.get_slice("Coll",0))
+func _on_regions_area_input_event(_viewport, _event, _shape_idx):
+	# if(_event is InputEventMouseButton and _event.pressed == true):
+	# 	print("Brain clicked.")
+	# if(_event is InputEventMouseMotion):
+	# 	var hover = regions.filter(func(r): return Geometry2D.is_point_in_polygon(get_global_mouse_position(),region_offsets[r.name]))
+	# 	print(hover)
+		# for region in regions:
+		# 	if Geometry2D.is_point_in_polygon(get_global_mouse_position(),region_offsets[region.name]):
+		# 		region.color = Color.PURPLE
+	pass
 
-#Listen for regions being hovered over.
-func _on_regions_area_mouse_shape_entered(shape_idx):
-	var shape_owner_id: int = area.shape_find_owner(shape_idx)
-	var shape_owner: Object = area.shape_owner_get_owner(shape_owner_id)
-	var owner_name = shape_owner.name.get_slice("Coll",0)
-	if(hoveredRegion != owner_name):
-		hoveredRegion = owner_name
-		setRegionHover()
-	#state_chart.send_event.call_deferred("to_yes")
 
-#Listen for regions being unhovered.
-func _on_regions_area_mouse_shape_exited(shape_idx):
-	var shape_owner_id: int = area.shape_find_owner(shape_idx)
-	var shape_owner: Object = area.shape_owner_get_owner(shape_owner_id)
-	var owner_name = shape_owner.name.get_slice("Coll",0)
-	unsetRegionHover(owner_name)
-	#state_chart.send_event("to_no")
+
+func _on_low_state_entered():
+
 	pass # Replace with function body.

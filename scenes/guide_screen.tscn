@@ -1,14 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://blbbvgkdy81b0"]
+[gd_scene load_steps=9 format=3 uid="uid://blbbvgkdy81b0"]
 
 [ext_resource type="Script" path="res://scenes/guide.gd" id="1_141rj"]
-[ext_resource type="PackedScene" uid="uid://pu28el6n6ols" path="res://scenes/brain_v2.tscn" id="2_2hwsl"]
+[ext_resource type="PackedScene" uid="uid://67dr4baog4w4" path="res://scenes/brain_v3.tscn" id="2_4cqnl"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_xjjh2"]
+[ext_resource type="PackedScene" uid="uid://dxjv5oe4ahrh2" path="res://scenes/state_chart_v2.tscn" id="5_h8pm4"]
 [ext_resource type="Theme" uid="uid://ykp3sijrtrkk" path="res://main_theme.tres" id="6_drfbh"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="6_qrmke"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_g86ti"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="8_3nrxm"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="8_c1454"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="9_u1hkt"]
 [ext_resource type="Texture2D" uid="uid://d0rdoqyxbi45h" path="res://icon.svg" id="10_q3rvt"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rfskh"]
@@ -18,7 +14,7 @@ content_margin_left = 20.0
 content_margin_top = 20.0
 content_margin_right = 20.0
 
-[node name="GuideScreen" type="Control" node_paths=PackedStringArray("region_info", "type_dropdown", "description_label", "summary_tooltip", "tab_container", "cursor")]
+[node name="GuideScreen" type="Control" node_paths=PackedStringArray("brain", "type_dropdown", "description_label", "tooltip_container", "tab_container", "cursor")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,10 +25,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
 script = ExtResource("1_141rj")
-region_info = NodePath("ProjectWrapper/BrainPanel/Brain")
+brain = NodePath("ProjectWrapper/BrainPanel/Brain")
 type_dropdown = NodePath("ProjectWrapper/Sidebar/InnerSidebar/Types Overview/Types")
 description_label = NodePath("RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper/Title")
-summary_tooltip = NodePath("TooltipContainer")
+tooltip_container = NodePath("TooltipContainer")
 tab_container = NodePath("ProjectWrapper/Sidebar/InnerSidebar")
 cursor = NodePath("Sprite2D")
 metadata/_edit_horizontal_guides_ = []
@@ -52,11 +48,9 @@ split_offset = 900
 custom_minimum_size = Vector2(639, 0)
 layout_mode = 2
 
-[node name="Brain" parent="ProjectWrapper/BrainPanel" instance=ExtResource("2_2hwsl")]
-scale = Vector2(1, 1)
-
-[node name="P4Coll" parent="ProjectWrapper/BrainPanel/Brain/BrainRegions/RegionsArea" index="23"]
-polygon = PackedVector2Array(-58.0001, -49.9998, -56, 20, -20, 86, 63, 63, 42, -9, 44.9998, -88.0001)
+[node name="Brain" parent="ProjectWrapper/BrainPanel" node_paths=PackedStringArray("state_chart") instance=ExtResource("2_4cqnl")]
+position = Vector2(475, 338)
+state_chart = NodePath("../../../StateChart")
 
 [node name="Sidebar" type="PanelContainer" parent="ProjectWrapper"]
 layout_mode = 2
@@ -85,6 +79,7 @@ layout_mode = 2
 initial_node_to_watch = NodePath("../../../../StateChart")
 
 [node name="TooltipContainer" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 1
 offset_right = 182.0
 offset_bottom = 26.0
@@ -229,116 +224,18 @@ fit_content = true
 scroll_active = false
 selection_enabled = true
 
-[node name="StateChart" type="Node" parent="."]
-script = ExtResource("6_qrmke")
-track_in_editor = true
-
-[node name="Root" type="Node" parent="StateChart"]
-script = ExtResource("8_c1454")
-
-[node name="Mode" type="Node" parent="StateChart/Root"]
-script = ExtResource("7_g86ti")
-initial_state = NodePath("TypeOverviews")
-
-[node name="TypeOverviews" type="Node" parent="StateChart/Root/Mode"]
-script = ExtResource("8_3nrxm")
-
-[node name="ToWholeBrain" type="Node" parent="StateChart/Root/Mode/TypeOverviews"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../WholeBrainStates")
-event = &"to_whole"
-
-[node name="ToSimulated" type="Node" parent="StateChart/Root/Mode/TypeOverviews"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../SimulatedActivity")
-event = &"to_simulated"
-
-[node name="WholeBrainStates" type="Node" parent="StateChart/Root/Mode"]
-script = ExtResource("8_3nrxm")
-
-[node name="ToTypes" type="Node" parent="StateChart/Root/Mode/WholeBrainStates"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../TypeOverviews")
-event = &"to_types"
-
-[node name="SimulatedActivity" type="Node" parent="StateChart/Root/Mode"]
-script = ExtResource("8_3nrxm")
-
-[node name="Overlay" type="Node" parent="StateChart/Root"]
-script = ExtResource("7_g86ti")
-initial_state = NodePath("NoOverlay")
-
-[node name="NoOverlay" type="Node" parent="StateChart/Root/Overlay"]
-script = ExtResource("8_3nrxm")
-
-[node name="ToPause" type="Node" parent="StateChart/Root/Overlay/NoOverlay"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../PauseOverlay")
-event = &"to_pause"
-
-[node name="ToRegion" type="Node" parent="StateChart/Root/Overlay/NoOverlay"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../RegionOverlay")
-event = &"to_region"
-
-[node name="PauseOverlay" type="Node" parent="StateChart/Root/Overlay"]
-script = ExtResource("8_3nrxm")
-
-[node name="ToNone" type="Node" parent="StateChart/Root/Overlay/PauseOverlay"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../NoOverlay")
-event = &"to_none"
-
-[node name="ToRegion" type="Node" parent="StateChart/Root/Overlay/PauseOverlay"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../RegionOverlay")
-event = &"to_region"
-
-[node name="RegionOverlay" type="Node" parent="StateChart/Root/Overlay"]
-script = ExtResource("8_3nrxm")
-
-[node name="ToNone" type="Node" parent="StateChart/Root/Overlay/RegionOverlay"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../NoOverlay")
-event = &"to_none"
-
-[node name="ToPause" type="Node" parent="StateChart/Root/Overlay/RegionOverlay"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../PauseOverlay")
-event = &"to_pause"
-
-[node name="IsRegionHovered" type="Node" parent="StateChart/Root"]
-script = ExtResource("7_g86ti")
-initial_state = NodePath("No")
-
-[node name="No" type="Node" parent="StateChart/Root/IsRegionHovered"]
-script = ExtResource("8_3nrxm")
-
-[node name="ToYes" type="Node" parent="StateChart/Root/IsRegionHovered/No"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../Yes")
-event = &"to_yes"
-
-[node name="Yes" type="Node" parent="StateChart/Root/IsRegionHovered"]
-script = ExtResource("8_3nrxm")
-
-[node name="ToNo" type="Node" parent="StateChart/Root/IsRegionHovered/Yes"]
-script = ExtResource("9_u1hkt")
-to = NodePath("../../No")
-event = &"to_no"
+[node name="StateChart" parent="." instance=ExtResource("5_h8pm4")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.125, 0.125)
 texture = ExtResource("10_q3rvt")
 
-[connection signal="typeSelected" from="." to="ProjectWrapper/BrainPanel/Brain" method="_on_guide_screen_type_selected"]
 [connection signal="item_selected" from="ProjectWrapper/Sidebar/InnerSidebar/Types Overview/Types" to="." method="_on_types_item_selected"]
-[connection signal="state_processing" from="StateChart/Root/Overlay/NoOverlay" to="." method="_on_no_overlay_state_processing"]
-[connection signal="state_entered" from="StateChart/Root/Overlay/PauseOverlay" to="." method="_on_pause_overlay_state_entered"]
-[connection signal="state_processing" from="StateChart/Root/Overlay/PauseOverlay" to="." method="_on_pause_overlay_state_processing"]
-[connection signal="state_entered" from="StateChart/Root/Overlay/RegionOverlay" to="." method="_on_region_overlay_state_entered"]
-[connection signal="state_exited" from="StateChart/Root/Overlay/RegionOverlay" to="." method="_on_region_overlay_state_exited"]
-[connection signal="state_processing" from="StateChart/Root/Overlay/RegionOverlay" to="." method="_on_region_overlay_state_processing"]
-[connection signal="event_received" from="StateChart/Root/IsRegionHovered/Yes" to="." method="_on_yes_event_received"]
+[connection signal="state_entered" from="StateChart/Root/Overlay/NoOverlay" to="." method="_on_unpause"]
+[connection signal="state_input" from="StateChart/Root/Overlay/NoOverlay" to="." method="_unpaused_input"]
+[connection signal="state_processing" from="StateChart/Root/Overlay/NoOverlay" to="." method="_unpaused_process"]
+[connection signal="state_entered" from="StateChart/Root/Overlay/PauseOverlay" to="." method="_on_pause"]
+[connection signal="state_input" from="StateChart/Root/Overlay/PauseOverlay" to="." method="_paused_input"]
+[connection signal="state_processing" from="StateChart/Root/Overlay/PauseOverlay" to="." method="_paused_process"]
 
-[editable path="ProjectWrapper/BrainPanel/Brain"]
+[editable path="StateChart"]
