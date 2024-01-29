@@ -14,7 +14,7 @@ content_margin_left = 20.0
 content_margin_top = 20.0
 content_margin_right = 20.0
 
-[node name="GuideScreen" type="Control" node_paths=PackedStringArray("brain", "type_dropdown", "description_label", "tooltip_container", "tab_container", "cursor")]
+[node name="GuideScreen" type="Control" node_paths=PackedStringArray("brain", "type_dropdown", "description_label", "tooltip_container", "desc_container", "tab_container", "cursor")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,6 +29,7 @@ brain = NodePath("ProjectWrapper/BrainPanel/Brain")
 type_dropdown = NodePath("ProjectWrapper/Sidebar/InnerSidebar/Types Overview/Types")
 description_label = NodePath("RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper/Title")
 tooltip_container = NodePath("TooltipContainer")
+desc_container = NodePath("RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper")
 tab_container = NodePath("ProjectWrapper/Sidebar/InnerSidebar")
 cursor = NodePath("Sprite2D")
 metadata/_edit_horizontal_guides_ = []
@@ -95,7 +96,6 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Testing text hello world"
 
 [node name="RegionDescriptionOverlay" type="PanelContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -144,17 +144,31 @@ fit_content = true
 scroll_active = false
 selection_enabled = true
 
-[node name="Description2" type="RichTextLabel" parent="RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper"]
+[node name="Summary" type="RichTextLabel" parent="RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper"]
+layout_mode = 2
+focus_mode = 2
+theme = ExtResource("6_drfbh")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[ul]
+Recall exact, literal details.
+Say a word or phrase with strong emphasis. 
+Identify what we believe.
+Rate how much we like or dislike something.
+Ignore context.[/ul]"
+fit_content = true
+scroll_active = false
+selection_enabled = true
+
+[node name="Body" type="RichTextLabel" parent="RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper"]
 layout_mode = 2
 focus_mode = 2
 theme = ExtResource("6_drfbh")
 bbcode_enabled = true
-text = "[ul]
-This region is home to mirror neurons which are special cells using these cells we can watch a person perform a task or behave in a certain way and then mimic that person to quickly learn the task or act as if we are like them these cells also fire when we imagine doing something but don't actually act. This region acts as our minds very own Star Trek Hollow deck a place where we can play out real life and fanciful events.
+text = "This region is home to mirror neurons which are special cells using these cells we can watch a person perform a task or behave in a certain way and then mimic that person to quickly learn the task or act as if we are like them these cells also fire when we imagine doing something but don't actually act. This region acts as our minds very own Star Trek Hollow deck a place where we can play out real life and fanciful events.
 	here's how it works we select the context which might be in the immediate situation before us a future event such as upcoming tests or race or a historical or imaginative context such as a childhood birthday party or ancient Rome then we play out the simulation perhaps asking what it this region does its best to supply details and simulate what would likely happen thus we can use this region to make sensible guesses consider the words car Road and Flat Tire now imagine a larger scene or several scenes perhaps an accident occurred who or what else is in the see how do people feel don't really answer the question just play as if it can also Supply you with additional words that fit the implied context, such as traffic, ambulance, or rain.
 	<br> <br> People who under use this region may display a lack of empathy and find it hard to learn by imitation or inference puzzle over other's motives dislike what if questions and brainstorming and or feel challenged to think outside the box.
-	This region is not analytical that we may feel like we are analyzing as we explore a myriad of scenarios simply it helps us make smart guesses based on context and imitation people who use this region with skill are able to quickly build rapport with others and make insightful guesses about people without having any particular reason or theory in mind their mental stimulation simply reveal what they need to know using this region May frustrate us Sometimes using it can be fun and provide ideas for why people act as they do however our inferences maybe wrong moreover while this region provides an appearance of empathy and Rapport the active mirroring others does not mean we truly care.
-[ul]"
+	This region is not analytical that we may feel like we are analyzing as we explore a myriad of scenarios simply it helps us make smart guesses based on context and imitation people who use this region with skill are able to quickly build rapport with others and make insightful guesses about people without having any particular reason or theory in mind their mental stimulation simply reveal what they need to know using this region May frustrate us Sometimes using it can be fun and provide ideas for why people act as they do however our inferences maybe wrong moreover while this region provides an appearance of empathy and Rapport the active mirroring others does not mean we truly care."
 fit_content = true
 scroll_active = false
 selection_enabled = true
@@ -188,7 +202,6 @@ color = Color(0.2, 0.290196, 0.513726, 1)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mu5s2")
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
 
 [node name="DescriptionWrapper" type="VBoxContainer" parent="PauseOverlay/MarginContainer/ScrollContainer"]
 layout_mode = 2
@@ -237,5 +250,8 @@ texture = ExtResource("10_q3rvt")
 [connection signal="state_entered" from="StateChart/Root/Overlay/PauseOverlay" to="." method="_on_pause"]
 [connection signal="state_input" from="StateChart/Root/Overlay/PauseOverlay" to="." method="_paused_input"]
 [connection signal="state_processing" from="StateChart/Root/Overlay/PauseOverlay" to="." method="_paused_process"]
+[connection signal="state_entered" from="StateChart/Root/Overlay/RegionOverlay" to="." method="_on_select"]
+[connection signal="state_exited" from="StateChart/Root/Overlay/RegionOverlay" to="." method="_on_unselect"]
+[connection signal="state_input" from="StateChart/Root/Overlay/RegionOverlay" to="." method="_paused_input"]
 
 [editable path="StateChart"]

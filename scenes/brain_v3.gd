@@ -245,7 +245,7 @@ var colors = [
 var activity_intToString = {0:"low",1:"medium",2:"high",3:"very high",4:"hovered",5:"none"}
 var activity_stringToInt = {"low":0,"medium":1,"high":2,"very high":3,"hovered":4,"none":5}
 # Name of currently hovered region
-var hoveredRegion: String
+var hovered
 # Color of currently hovered region
 var restoreColor: Color = colors[5]
 
@@ -270,13 +270,9 @@ func _ready():
 	setup_regions()
 	for region in regions:
 		current_region_activity[region.name] = 0
-
-	
-	#print_debug(regions)
 	setup_polygon_offsets()
-	#print_debug(region_offsets["F7"])
 	# Set all regions color to default
-	set_activity_by_type("NeTi")
+	set_activity_by_type("")
 	print(current_region_activity)
 	#switch_type()
 
@@ -291,11 +287,11 @@ func setup_regions():
 
 
 func _process(_delta):
-	var hovered = handle_region_hover()
+	hovered = handle_region_hover()
 	
 	regions.map(func(r): r.color = colors[current_region_activity[r.name]])
-	if typeof(hovered) != TYPE_BOOL:
-		hovered.color = Color.PURPLE
+	if hovered[0]:
+		hovered[1].color = Color.PURPLE
 	pass
 
 func switch_type():
@@ -316,11 +312,11 @@ func setup_polygon_offsets():
 
 
 func handle_region_hover():
-	var hovered = regions.filter(func(r): return Geometry2D.is_point_in_polygon(get_global_mouse_position(),region_offsets[r.name]))
-	if len(hovered) > 0:
-		return hovered[0]
+	var hovered_region = regions.filter(func(r): return Geometry2D.is_point_in_polygon(get_global_mouse_position(),region_offsets[r.name]))
+	if len(hovered_region) > 0:
+		return [true,hovered_region[0]]
 	else:
-		return false
+		return [false,null]
 
 
 func is_mouse_in_brain_area():
@@ -344,6 +340,13 @@ func set_activity_by_type(type):
 func get_region_by_name(name):
 	return regions.filter(func(r): return r.name == name)[0]
 
+func get_region_info(name):
+	var region_info = {
+		"name":name,
+		"summary":region_summaries[name],
+		"description":region_descriptions[name]
+	}
+	return region_info
 
 # Signal Events **********************************************************
 
