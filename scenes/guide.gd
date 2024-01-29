@@ -19,10 +19,11 @@ signal typeSelected
 
 # RegionOverlay Variables
 @onready var region_overlay: PanelContainer = $RegionDescriptionOverlay
+@onready var scroll_container: ScrollContainer = region_overlay.get_node("MarginContainer/ScrollContainer")
 @export var desc_container: VBoxContainer
-@onready var title_text = desc_container.get_node("Title")
-@onready var summary_text = desc_container.get_node("Summary")
-@onready var desc_text = desc_container.get_node("Body")
+@onready var title = desc_container.get_node("Title")
+@onready var summary = desc_container.get_node("Summary")
+@onready var desc = desc_container.get_node("Body")
 
 #State Chart Variables
 @onready var state_chart:StateChart = $StateChart
@@ -90,9 +91,11 @@ func _unpaused_input(_event):
 	if brain.is_mouse_in_brain_area():
 		if(_event is InputEventMouseButton and _event.pressed == true):
 			print("Brain clicked.")
-			region_info = brain.get_region_info(brain.hovered[1].name)
-			print(region_info["summary"])
-			state_chart.send_event.call_deferred("to_region")
+			print(brain.hovered)
+			if(brain.hovered[0]):
+				region_info = brain.get_region_info(brain.hovered[1].name)
+				print(region_info["summary"])
+				state_chart.send_event.call_deferred("to_region")
 		if(_event is InputEventMouseMotion):
 			#TODO: Implement a better way to handle UI changes.
 			
@@ -136,14 +139,20 @@ func _on_pause():
 func _on_unselect():
 	unpause_game()
 	region_overlay.visible = false
+	scroll_container.scroll_vertical = 0
 	pass # Replace with function body.
 
 func _on_select():
 	pause_game()
+	
 	# TODO: Figure out why this didn't work
-	title_text = region_info["name"]
-	summary_text = region_info["summary"]
-	desc_text = region_info["description"]
+	title.text = region_info["name"]
+	var summary_text = "[ul]"
+	for line in region_info["summary"]:
+		summary_text += line + "\n"
+	summary_text += "[/ul]"
+	summary.text = summary_text
+	desc.text = region_info["description"]
 	region_overlay.visible = true
 	pass # Replace with function body.
 
