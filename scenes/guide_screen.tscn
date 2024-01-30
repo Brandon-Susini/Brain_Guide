@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://blbbvgkdy81b0"]
+[gd_scene load_steps=10 format=3 uid="uid://blbbvgkdy81b0"]
 
 [ext_resource type="Script" path="res://scenes/guide.gd" id="1_141rj"]
 [ext_resource type="PackedScene" uid="uid://67dr4baog4w4" path="res://scenes/brain_v3.tscn" id="2_4cqnl"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_xjjh2"]
+[ext_resource type="Theme" uid="uid://liy8to6hk6nj" path="res://tooltip_theme.tres" id="4_qldme"]
 [ext_resource type="PackedScene" uid="uid://dxjv5oe4ahrh2" path="res://scenes/state_chart_v2.tscn" id="5_h8pm4"]
 [ext_resource type="Theme" uid="uid://ykp3sijrtrkk" path="res://main_theme.tres" id="6_drfbh"]
 [ext_resource type="Texture2D" uid="uid://d0rdoqyxbi45h" path="res://icon.svg" id="10_q3rvt"]
@@ -80,20 +81,27 @@ layout_mode = 2
 initial_node_to_watch = NodePath("../../../../StateChart")
 
 [node name="TooltipContainer" type="PanelContainer" parent="."]
-visible = false
 layout_mode = 1
-offset_right = 182.0
-offset_bottom = 26.0
+offset_right = 1.0
 mouse_filter = 2
 
 [node name="ColorRect" type="ColorRect" parent="TooltipContainer"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="SummaryTooltip" type="Label" parent="TooltipContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TooltipContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Testing text hello world"
+theme = ExtResource("4_qldme")
+
+[node name="SummaryTooltip" type="RichTextLabel" parent="TooltipContainer/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("4_qldme")
+bbcode_enabled = true
+text = "asdf
+adsfasdf[p][/p]asdfadf[p][/p]fasdfasdf"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
 
 [node name="RegionDescriptionOverlay" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -109,16 +117,17 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_rfskh")
 [node name="RegionDescriptionBlackout" type="ColorRect" parent="RegionDescriptionOverlay"]
 layout_mode = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 0.537255)
+color = Color(0.054902, 0.0509804, 0.0470588, 0.537255)
 
 [node name="MarginContainer" type="MarginContainer" parent="RegionDescriptionOverlay"]
+clip_contents = true
 layout_mode = 2
 theme = ExtResource("6_drfbh")
 
 [node name="RegionDescriptionBackground" type="ColorRect" parent="RegionDescriptionOverlay/MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
-color = Color(0.2, 0.290196, 0.513726, 1)
+color = Color(0.694118, 0.694118, 0.694118, 1)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="RegionDescriptionOverlay/MarginContainer"]
 layout_mode = 2
@@ -137,7 +146,6 @@ clip_contents = false
 layout_mode = 2
 focus_mode = 2
 theme = ExtResource("6_drfbh")
-theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
 text = "This is a Title text."
 fit_content = true
@@ -148,7 +156,6 @@ selection_enabled = true
 layout_mode = 2
 focus_mode = 2
 theme = ExtResource("6_drfbh")
-theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 text = "[ul]
 Recall exact, literal details.
@@ -240,6 +247,7 @@ selection_enabled = true
 [node name="StateChart" parent="." instance=ExtResource("5_h8pm4")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(0.125, 0.125)
 texture = ExtResource("10_q3rvt")
 

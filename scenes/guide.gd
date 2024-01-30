@@ -11,7 +11,7 @@ signal typeSelected
 
 # Tooltip variables
 @export var tooltip_container: PanelContainer
-@onready var tooltip_node := tooltip_container.get_node("SummaryTooltip")
+@onready var tooltip_node := tooltip_container.get_node("MarginContainer/SummaryTooltip")
 @export var tooltip_offset: Vector2 = Vector2(20,10)
 
 # Pause Menu Variables
@@ -57,6 +57,8 @@ func _draw():
 	#draw_circle(Vector2(0,0),150,Color.RED)
 	pass
 
+func set_region_info(hovered_region: Polygon2D):
+	region_info = brain.get_region_info(hovered_region.name)
 
 # NOTE: Anything that should happen every tick no matter what the state goes here.
 
@@ -64,7 +66,8 @@ func _process(delta):
 	cursor.global_position = get_global_mouse_position()
 	
 	var mouse_position: Vector2 = get_global_mouse_position()
-	tooltip_container.position = Vector2(mouse_position.x + tooltip_offset.x,mouse_position.y+tooltip_offset.y)
+	if brain.is_mouse_in_brain_area():
+		tooltip_container.position = Vector2(mouse_position.x + tooltip_offset.x,mouse_position.y+tooltip_offset.y)
 	
 func pause_game():
 	Engine.time_scale = 0.0
@@ -89,20 +92,26 @@ func _unpaused_input(_event):
 	if Input.is_action_just_pressed("pause"):
 		state_chart.send_event.call_deferred("to_pause")
 	if brain.is_mouse_in_brain_area():
+		var hovered_region = brain.handle_region_hover()
 		if(_event is InputEventMouseButton and _event.pressed == true):
 			print("Brain clicked.")
 			print(brain.hovered)
-			if(brain.hovered[0]):
-				region_info = brain.get_region_info(brain.hovered[1].name)
+			if(hovered_region[0]):
+				set_region_info(hovered_region[1])
 				print(region_info["summary"])
 				state_chart.send_event.call_deferred("to_region")
 		if(_event is InputEventMouseMotion):
 			#TODO: Implement a better way to handle UI changes.
-			
-			var hovered_region = brain.handle_region_hover()
+			#print(hovered_region[0])
 			if hovered_region[0]:
+				tooltip_container.size = Vector2.ZERO
+				set_region_info(hovered_region[1])
+				var text = "[b]" + region_info["name"] + "[/b]\n-------[ul]\n"
+				for line in region_info["summary"]:
+					text += line + "\n"
+				text += "[/ul]"
 				tooltip_container.visible = true
-				tooltip_node.text = hovered_region[1].name
+				tooltip_node.text = text
 			else:
 				tooltip_container.visible = false
 	else:
@@ -146,7 +155,7 @@ func _on_select():
 	pause_game()
 	
 	# TODO: Figure out why this didn't work
-	title.text = region_info["name"]
+	title.text = "[b]" + region_info["name"] +"[/b]"
 	var summary_text = "[ul]"
 	for line in region_info["summary"]:
 		summary_text += line + "\n"
