@@ -12,6 +12,7 @@ signal typeSelected
 # Tooltip variables
 @export var tooltip_container: PanelContainer
 @onready var tooltip_node := tooltip_container.get_node("MarginContainer/SummaryTooltip")
+@onready var tooltip_background = tooltip_container.get_node("ColorRect")
 @export var tooltip_offset: Vector2 = Vector2(20,10)
 
 # Pause Menu Variables
@@ -25,6 +26,10 @@ signal typeSelected
 @onready var summary = desc_container.get_node("Summary")
 @onready var desc = desc_container.get_node("Body")
 
+
+@onready var pause_overlay_background = $PauseOverlay/MarginContainer/PauseOverlayBackground
+@onready var region_overlay_background = $RegionDescriptionOverlay/MarginContainer/RegionDescriptionBackground
+
 #State Chart Variables
 @onready var state_chart:StateChart = $StateChart
 
@@ -32,7 +37,8 @@ signal typeSelected
 @export var tab_container:TabContainer
 
 
-
+# Resource
+@onready var ui_settings := $UISettings
 
 @export var cursor: Sprite2D
 
@@ -45,7 +51,10 @@ func _ready():
 	type_dropdown.add_item("None")
 	for type in brain.types:
 		type_dropdown.add_item(type)
-	
+	region_overlay_background.color = ui_settings.text_bg_color
+	pause_overlay_background.color = ui_settings.text_bg_color
+	tooltip_background.color = ui_settings.text_bg_color
+
 
 func loadDescriptionText():
 	description_label.visible_ratio = 0

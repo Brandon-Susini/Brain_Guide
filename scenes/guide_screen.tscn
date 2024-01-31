@@ -1,11 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://blbbvgkdy81b0"]
+[gd_scene load_steps=12 format=3 uid="uid://blbbvgkdy81b0"]
 
 [ext_resource type="Script" path="res://scenes/guide.gd" id="1_141rj"]
 [ext_resource type="PackedScene" uid="uid://67dr4baog4w4" path="res://scenes/brain_v3.tscn" id="2_4cqnl"]
+[ext_resource type="Script" path="res://ui_settings.gd" id="2_g4idk"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_xjjh2"]
 [ext_resource type="Theme" uid="uid://liy8to6hk6nj" path="res://tooltip_theme.tres" id="4_qldme"]
 [ext_resource type="PackedScene" uid="uid://dxjv5oe4ahrh2" path="res://scenes/state_chart_v2.tscn" id="5_h8pm4"]
-[ext_resource type="Theme" uid="uid://ykp3sijrtrkk" path="res://main_theme.tres" id="6_drfbh"]
+[ext_resource type="Theme" uid="uid://ykp3sijrtrkk" path="res://overlay_theme.tres" id="5_ktv44"]
+[ext_resource type="Theme" uid="uid://ykp3sijrtrkk" path="res://main_theme.tres" id="7_nm3cd"]
 [ext_resource type="Texture2D" uid="uid://d0rdoqyxbi45h" path="res://icon.svg" id="10_q3rvt"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rfskh"]
@@ -34,6 +36,10 @@ desc_container = NodePath("RegionDescriptionOverlay/MarginContainer/ScrollContai
 tab_container = NodePath("ProjectWrapper/Sidebar/InnerSidebar")
 cursor = NodePath("Sprite2D")
 metadata/_edit_horizontal_guides_ = []
+
+[node name="UISettings" type="Node" parent="."]
+script = ExtResource("2_g4idk")
+text_bg_color = Color(0.694118, 0.694118, 0.694118, 1)
 
 [node name="StateManager" type="Node" parent="."]
 
@@ -81,6 +87,7 @@ layout_mode = 2
 initial_node_to_watch = NodePath("../../../../StateChart")
 
 [node name="TooltipContainer" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 1
 offset_right = 1.0
 mouse_filter = 2
@@ -88,6 +95,7 @@ mouse_filter = 2
 [node name="ColorRect" type="ColorRect" parent="TooltipContainer"]
 layout_mode = 2
 mouse_filter = 2
+color = Color(0.694118, 0.694118, 0.694118, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="TooltipContainer"]
 layout_mode = 2
@@ -104,6 +112,7 @@ scroll_active = false
 autowrap_mode = 0
 
 [node name="RegionDescriptionOverlay" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -111,7 +120,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme = ExtResource("6_drfbh")
+theme = ExtResource("5_ktv44")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_rfskh")
 
 [node name="RegionDescriptionBlackout" type="ColorRect" parent="RegionDescriptionOverlay"]
@@ -122,11 +131,12 @@ color = Color(0.054902, 0.0509804, 0.0470588, 0.537255)
 [node name="MarginContainer" type="MarginContainer" parent="RegionDescriptionOverlay"]
 clip_contents = true
 layout_mode = 2
-theme = ExtResource("6_drfbh")
+theme = ExtResource("5_ktv44")
 
 [node name="RegionDescriptionBackground" type="ColorRect" parent="RegionDescriptionOverlay/MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
+theme = ExtResource("7_nm3cd")
 color = Color(0.694118, 0.694118, 0.694118, 1)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="RegionDescriptionOverlay/MarginContainer"]
@@ -139,13 +149,13 @@ vertical_scroll_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource("6_drfbh")
+theme = ExtResource("5_ktv44")
 
 [node name="Title" type="RichTextLabel" parent="RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper"]
 clip_contents = false
 layout_mode = 2
 focus_mode = 2
-theme = ExtResource("6_drfbh")
+theme = ExtResource("5_ktv44")
 bbcode_enabled = true
 text = "This is a Title text."
 fit_content = true
@@ -155,7 +165,7 @@ selection_enabled = true
 [node name="Summary" type="RichTextLabel" parent="RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper"]
 layout_mode = 2
 focus_mode = 2
-theme = ExtResource("6_drfbh")
+theme = ExtResource("5_ktv44")
 bbcode_enabled = true
 text = "[ul]
 Recall exact, literal details.
@@ -170,7 +180,7 @@ selection_enabled = true
 [node name="Body" type="RichTextLabel" parent="RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper"]
 layout_mode = 2
 focus_mode = 2
-theme = ExtResource("6_drfbh")
+theme = ExtResource("5_ktv44")
 bbcode_enabled = true
 text = "This region is home to mirror neurons which are special cells using these cells we can watch a person perform a task or behave in a certain way and then mimic that person to quickly learn the task or act as if we are like them these cells also fire when we imagine doing something but don't actually act. This region acts as our minds very own Star Trek Hollow deck a place where we can play out real life and fanciful events.
 	here's how it works we select the context which might be in the immediate situation before us a future event such as upcoming tests or race or a historical or imaginative context such as a childhood birthday party or ancient Rome then we play out the simulation perhaps asking what it this region does its best to supply details and simulate what would likely happen thus we can use this region to make sensible guesses consider the words car Road and Flat Tire now imagine a larger scene or several scenes perhaps an accident occurred who or what else is in the see how do people feel don't really answer the question just play as if it can also Supply you with additional words that fit the implied context, such as traffic, ambulance, or rain.
@@ -181,14 +191,13 @@ scroll_active = false
 selection_enabled = true
 
 [node name="PauseOverlay" type="PanelContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("6_drfbh")
+theme = ExtResource("5_ktv44")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_rfskh")
 
 [node name="PauseOverlayBlackout" type="ColorRect" parent="PauseOverlay"]
@@ -198,12 +207,12 @@ color = Color(0, 0, 0, 0.537255)
 
 [node name="MarginContainer" type="MarginContainer" parent="PauseOverlay"]
 layout_mode = 2
-theme = ExtResource("6_drfbh")
+theme = ExtResource("5_ktv44")
 
 [node name="PauseOverlayBackground" type="ColorRect" parent="PauseOverlay/MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
-color = Color(0.2, 0.290196, 0.513726, 1)
+color = Color(0.694118, 0.694118, 0.694118, 1)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PauseOverlay/MarginContainer"]
 layout_mode = 2
@@ -214,31 +223,35 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource("6_drfbh")
+theme = ExtResource("5_ktv44")
 
 [node name="Title" type="RichTextLabel" parent="PauseOverlay/MarginContainer/ScrollContainer/DescriptionWrapper"]
 clip_contents = false
 layout_mode = 2
 size_flags_horizontal = 4
 focus_mode = 2
-theme = ExtResource("6_drfbh")
+theme = ExtResource("7_nm3cd")
 theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
-text = "Paused"
+text = "[b]Paused[/b]"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
 selection_enabled = true
 
-[node name="Description2" type="RichTextLabel" parent="PauseOverlay/MarginContainer/ScrollContainer/DescriptionWrapper"]
+[node name="HowToUse" type="RichTextLabel" parent="PauseOverlay/MarginContainer/ScrollContainer/DescriptionWrapper"]
 layout_mode = 2
 focus_mode = 2
-theme = ExtResource("6_drfbh")
+theme = ExtResource("7_nm3cd")
 bbcode_enabled = true
-text = "[ul]
-This is the pause menu text
-This is more pause menu text
-Even moooore.
+text = "[b]Directions:[/b]
+[ul]
+Hover over different regions to see its name and a summary of the functions associated with that region.
+Click on a region to open a description panel that gives more information on the region.
+[ul]Deselect a region and close this menu by pressing 'ESC'[/ul]
+Use the Type Dropdown menu to select a type and view their average most used and least used regions.
+[ul] (Note: This region data was collected from 2 hour sessions of EEG recordings and only represent the activity of one individual of a specific type. The region data will vary individual to individual but follow certain trends.)[/ul]
+Pause and Unpause the app by pressing 'ESC'.
 [/ul]"
 fit_content = true
 scroll_active = false
