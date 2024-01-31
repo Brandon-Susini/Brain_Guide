@@ -12,11 +12,11 @@ signal typeSelected
 # Tooltip variables
 @export var tooltip_container: PanelContainer
 @onready var tooltip_node := tooltip_container.get_node("MarginContainer/SummaryTooltip")
-@onready var tooltip_background = tooltip_container.get_node("ColorRect")
+@onready var tooltip_background = tooltip_container.get_node("TooltipBG")
 @export var tooltip_offset: Vector2 = Vector2(20,10)
 
 # Pause Menu Variables
-@onready var pause_overlay: PanelContainer = $PauseOverlay
+@onready var pause_overlay:PanelContainer = $PauseOverlay
 
 # RegionOverlay Variables
 @onready var region_overlay: PanelContainer = $RegionDescriptionOverlay
@@ -27,8 +27,8 @@ signal typeSelected
 @onready var desc = desc_container.get_node("Body")
 
 
-@onready var pause_overlay_background = $PauseOverlay/MarginContainer/PauseOverlayBackground
-@onready var region_overlay_background = $RegionDescriptionOverlay/MarginContainer/RegionDescriptionBackground
+@onready var pause_overlay_background = $PauseOverlay/MarginContainer/PauseOverlayBG
+@onready var region_overlay_background = $RegionDescriptionOverlay/MarginContainer/RegionDescriptionBG
 
 #State Chart Variables
 @onready var state_chart:StateChart = $StateChart
@@ -42,8 +42,18 @@ signal typeSelected
 
 @export var cursor: Sprite2D
 
+@onready var hover_info := [false,null]
+
+
+var showingTooltip = false
 
 var timePassed = 0
+
+func _update_ui():
+	for bg in get_tree().get_nodes_in_group("bg_rect"):
+		bg.color = ui_settings.get_bg_color()
+		pass
+
 
 func _ready():
 	#tab_container.set_tab_hidden(1,true)
@@ -51,9 +61,9 @@ func _ready():
 	type_dropdown.add_item("None")
 	for type in brain.types:
 		type_dropdown.add_item(type)
-	region_overlay_background.color = ui_settings.text_bg_color
-	pause_overlay_background.color = ui_settings.text_bg_color
-	tooltip_background.color = ui_settings.text_bg_color
+	_update_ui()
+	
+	
 
 
 func loadDescriptionText():
@@ -69,6 +79,43 @@ func _draw():
 func set_region_info(hovered_region: Polygon2D):
 	region_info = brain.get_region_info(hovered_region.name)
 
+
+func update_tooltip(hover_info):
+	print("update_tooltip")
+	tooltip_node.text = ""
+	tooltip_container.size = Vector2.ZERO
+	set_region_info(hover_info[1])
+	var text = "[b]" + region_info["name"] + "[/b]\n-------[ul]\n"
+	for line in region_info["summary"]:
+		text += line + "\n"
+	text += "[/ul]"
+	tooltip_node.text = text		
+	pass
+
+func hide_tooltip():
+	print("hide tooltip")
+	tooltip_container.visible = false
+	
+
+func show_tooltip():
+	print("show tooltip")
+	tooltip_container.visible = true
+
+
+func _check_mouse_move():
+	hover_info = brain.handle_region_hover()
+	#TODO: Implement a better way to handle UI changes.
+	if(region_info.is_empty() and hover_info[0]):
+		update_tooltip(hover_info)
+	elif(!region_info.is_empty() and hover_info[0]):
+		if(hover_info[1].name != region_info["name"]):
+			update_tooltip(hover_info)
+		else:
+			if(!tooltip_container.visible):
+				show_tooltip()
+	else:
+		if(tooltip_container.visible):
+			hide_tooltip()
 # NOTE: Anything that should happen every tick no matter what the state goes here.
 
 func _process(delta):
@@ -78,12 +125,7 @@ func _process(delta):
 	if brain.is_mouse_in_brain_area():
 		tooltip_container.position = Vector2(mouse_position.x + tooltip_offset.x,mouse_position.y+tooltip_offset.y)
 	
-func pause_game():
-	Engine.time_scale = 0.0
-	brain.process_mode = Node.PROCESS_MODE_DISABLED
-func unpause_game():
-	Engine.time_scale = 1.0
-	brain.process_mode = Node.PROCESS_MODE_ALWAYS
+
 # State Processing Functions
 # NOTE: Anything that should only happen every tick depending on state goes here.
 
@@ -100,35 +142,31 @@ func _paused_process(_delta):
 func _unpaused_input(_event):
 	if Input.is_action_just_pressed("pause"):
 		state_chart.send_event.call_deferred("to_pause")
+		return
 	if brain.is_mouse_in_brain_area():
-		var hovered_region = brain.handle_region_hover()
 		if(_event is InputEventMouseButton and _event.pressed == true):
-			print("Brain clicked.")
-			print(brain.hovered)
-			if(hovered_region[0]):
-				set_region_info(hovered_region[1])
-				print(region_info["summary"])
+			var hovered_region = brain.handle_region_hover()
+			# if(hovered_region[0]):
+			# 	set_region_info(hovered_region[1])
+			# 	state_chart.send_event.call_deferred("to_region")
+			if(hover_info[0]):
+				set_region_info(hover_info[1])
 				state_chart.send_event.call_deferred("to_region")
+		
 		if(_event is InputEventMouseMotion):
-			#TODO: Implement a better way to handle UI changes.
-			#print(hovered_region[0])
-			if hovered_region[0]:
-				tooltip_container.size = Vector2.ZERO
-				set_region_info(hovered_region[1])
-				var text = "[b]" + region_info["name"] + "[/b]\n-------[ul]\n"
-				for line in region_info["summary"]:
-					text += line + "\n"
-				text += "[/ul]"
-				tooltip_container.visible = true
-				tooltip_node.text = text
-			else:
-				tooltip_container.visible = false
+			_check_mouse_move()
+			# elif(region_info == null and !hover_info[0]):
+			# 	return
+			# elif(hover_info[1].name != region_info["name"]):
+			# 	update_tooltip(hover_info)
 	else:
-		tooltip_container.visible = false
+		if(tooltip_container.visible):
+			hide_tooltip()
+			
 
 
 func _paused_input(_event):
-	tooltip_container.visible = false
+	
 	if Input.is_action_just_pressed("select"):
 		# send event to unpause
 		#state_chart.send_event.call_deferred("to_none")
@@ -143,15 +181,25 @@ func _on_types_item_selected(index):
 
 func _on_unpause():
 	unpause_game()
-	pause_overlay.visible = false
-	pass # Replace with function body.
 
 
 func _on_pause():
 	pause_game()
-	pause_overlay.visible = true
-	pass # Replace with function body.
 
+func pause_game():
+	Engine.time_scale = 0.0
+	brain.process_mode = Node.PROCESS_MODE_DISABLED
+	showingTooltip = tooltip_container.visible
+	tooltip_container.visible = false
+	pause_overlay.visible = true
+
+
+func unpause_game():
+	Engine.time_scale = 1.0
+	brain.process_mode = Node.PROCESS_MODE_ALWAYS
+	pause_overlay.visible = false
+	_check_mouse_move()
+	tooltip_container.visible = showingTooltip
 
 
 func _on_unselect():
@@ -174,3 +222,12 @@ func _on_select():
 	region_overlay.visible = true
 	pass # Replace with function body.
 
+
+func _on_brain_exited():
+	hover_info = brain.handle_region_hover()
+	hide_tooltip()
+
+
+func _on_state_chart_ready():
+	
+	pass

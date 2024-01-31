@@ -7,6 +7,7 @@ signal regionsReady
 #Emitted when region is clicked to send to guide script
 signal regionSelected
 
+signal brain_exited
 
 # Globals  **********************************************************
 
@@ -376,4 +377,9 @@ func _on_regions_area_input_event(_viewport, _event, _shape_idx):
 
 func _on_low_state_entered():
 
+	pass # Replace with function body.
+
+
+func _on_brain_area_mouse_exited():
+	emit_signal("brain_exited")
 	pass # Replace with function body.
