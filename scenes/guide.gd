@@ -36,6 +36,18 @@ signal typeSelected
 #Tab Bar Variables
 @export var tab_container:TabContainer
 
+#Brain Background Rect
+@onready var brain_bg: CanvasItem
+@onready var worley_shader:ShaderMaterial
+@export var worley_point_slider:Slider
+# @export var change_amt = 1
+# @export var mod_limit = 1000
+@export var worley_point_max = 10
+@onready var worley_point_num = worley_point_slider.value
+@onready var last_worley_point_num = worley_point_num
+
+@export var available_backgrounds:Array[Shader]
+@onready var bg_index = 1
 
 # Resource
 @onready var ui_settings := $UISettings
@@ -49,6 +61,24 @@ var showingTooltip = false
 
 var timePassed = 0
 
+
+func get_random_point():
+	return Vector3(snapped(randf_range(0.1,0.9),0.1),snapped(randf_range(0.1,0.9),0.1),snapped(randf_range(0.1,0.9),0.1))
+
+# func update_worley_shader():
+# 	var worley_points:Array[Vector3] = []
+# 	for i in range(worley_point_num):
+# 		worley_points.append(get_random_point())
+# 	print(worley_points)
+# 	worley_shader.set_shader_parameter("worley_points",worley_points)
+# 	print(worley_shader.get_shader_parameter("worley_points"))
+
+
+func update_brain_bg(index):
+	# TODO: Set the current shader property of brain bg's material to the next shader in available_bgs array.
+	brain_bg.material.shader = available_backgrounds[index]
+	pass
+
 func _update_ui():
 	for bg in get_tree().get_nodes_in_group("bg_rect"):
 		bg.color = ui_settings.get_bg_color()
@@ -56,11 +86,14 @@ func _update_ui():
 
 
 func _ready():
+	brain_bg = find_child("BrainBG")
 	#tab_container.set_tab_hidden(1,true)
 	region_overlay.visible = false
 	type_dropdown.add_item("None")
 	for type in brain.types:
 		type_dropdown.add_item(type)
+	# update_worley_shader()
+	
 	_update_ui()
 	
 	
@@ -81,7 +114,6 @@ func set_region_info(hovered_region: Polygon2D):
 
 
 func update_tooltip(hover_info):
-	print("update_tooltip")
 	tooltip_node.text = ""
 	tooltip_container.size = Vector2.ZERO
 	set_region_info(hover_info[1])
@@ -93,17 +125,15 @@ func update_tooltip(hover_info):
 	pass
 
 func hide_tooltip():
-	print("hide tooltip")
 	tooltip_container.visible = false
 	
 
 func show_tooltip():
-	print("show tooltip")
 	tooltip_container.visible = true
 
 
 func _check_mouse_move():
-	hover_info = brain.handle_region_hover()
+	
 	#TODO: Implement a better way to handle UI changes.
 	if(region_info.is_empty() and hover_info[0]):
 		update_tooltip(hover_info)
@@ -130,6 +160,10 @@ func _process(delta):
 # NOTE: Anything that should only happen every tick depending on state goes here.
 
 func _unpaused_process(_delta):
+	# var o = brain_bg.texture.noise.offset
+	# var new_offset = Vector3(fmod(o.x + (change_amt * _delta),mod_limit),fmod(o.y + (change_amt * _delta),mod_limit),fmod(o.z + (change_amt * _delta),mod_limit))
+	# brain_bg.texture.noise.offset = new_offset
+	# print(new_offset)
 	pass
 
 func _paused_process(_delta):
@@ -143,17 +177,18 @@ func _unpaused_input(_event):
 	if Input.is_action_just_pressed("pause"):
 		state_chart.send_event.call_deferred("to_pause")
 		return
+	if Input.is_action_just_pressed("option"):
+		print("option")
+		update_brain_bg(1)
 	if brain.is_mouse_in_brain_area():
-		if(_event is InputEventMouseButton and _event.pressed == true):
-			var hovered_region = brain.handle_region_hover()
-			# if(hovered_region[0]):
-			# 	set_region_info(hovered_region[1])
-			# 	state_chart.send_event.call_deferred("to_region")
+		if(Input.is_action_just_pressed("select")):
+			hover_info = brain.handle_region_hover()
 			if(hover_info[0]):
 				set_region_info(hover_info[1])
 				state_chart.send_event.call_deferred("to_region")
 		
 		if(_event is InputEventMouseMotion):
+			hover_info = brain.handle_region_hover()
 			_check_mouse_move()
 			# elif(region_info == null and !hover_info[0]):
 			# 	return
@@ -166,7 +201,6 @@ func _unpaused_input(_event):
 
 
 func _paused_input(_event):
-	
 	if Input.is_action_just_pressed("select"):
 		# send event to unpause
 		#state_chart.send_event.call_deferred("to_none")
@@ -181,23 +215,24 @@ func _on_types_item_selected(index):
 
 func _on_unpause():
 	unpause_game()
+	pause_overlay.visible = false
 
 
 func _on_pause():
 	pause_game()
+	showingTooltip = tooltip_container.visible
+	tooltip_container.visible = false
+	pause_overlay.visible = true
 
 func pause_game():
 	Engine.time_scale = 0.0
 	brain.process_mode = Node.PROCESS_MODE_DISABLED
-	showingTooltip = tooltip_container.visible
-	tooltip_container.visible = false
-	pause_overlay.visible = true
+	
 
 
 func unpause_game():
 	Engine.time_scale = 1.0
 	brain.process_mode = Node.PROCESS_MODE_ALWAYS
-	pause_overlay.visible = false
 	_check_mouse_move()
 	tooltip_container.visible = showingTooltip
 
@@ -231,3 +266,9 @@ func _on_brain_exited():
 func _on_state_chart_ready():
 	
 	pass
+
+
+func _on_worley_point_num_changed(value):
+	worley_point_num = value
+	#update_worley_shader()
+	pass # Replace with function body.

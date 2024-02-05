@@ -1,14 +1,26 @@
-[gd_scene load_steps=12 format=3 uid="uid://blbbvgkdy81b0"]
+[gd_scene load_steps=15 format=3 uid="uid://blbbvgkdy81b0"]
 
 [ext_resource type="Script" path="res://scenes/guide.gd" id="1_141rj"]
 [ext_resource type="PackedScene" uid="uid://67dr4baog4w4" path="res://scenes/brain_v3.tscn" id="2_4cqnl"]
 [ext_resource type="Script" path="res://ui_settings.gd" id="2_g4idk"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_xjjh2"]
+[ext_resource type="Shader" path="res://scenes/synapse.gdshader" id="3_jp4p8"]
+[ext_resource type="Shader" path="res://scenes/voronoi.gdshader" id="3_m17o5"]
 [ext_resource type="Theme" uid="uid://liy8to6hk6nj" path="res://tooltip_theme.tres" id="4_qldme"]
 [ext_resource type="PackedScene" uid="uid://dxjv5oe4ahrh2" path="res://scenes/state_chart_v2.tscn" id="5_h8pm4"]
-[ext_resource type="Theme" uid="uid://ykp3sijrtrkk" path="res://main_theme.tres" id="7_r7cer"]
 [ext_resource type="Theme" uid="uid://ykp3sijrtrkk" path="res://overlay_theme.tres" id="7_uipiy"]
 [ext_resource type="Texture2D" uid="uid://d0rdoqyxbi45h" path="res://icon.svg" id="10_q3rvt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1h3v6"]
+shader = ExtResource("3_jp4p8")
+shader_parameter/pixel_size = Vector2(0.001, 0.001)
+shader_parameter/voronoi_scale = 20.0
+shader_parameter/voronoi_seed = 0.0
+shader_parameter/electric_scale = 20.0
+shader_parameter/electric_speed = 1.0
+shader_parameter/electric_power = 4.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_bng88"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rfskh"]
 
@@ -17,7 +29,7 @@ content_margin_left = 20.0
 content_margin_top = 20.0
 content_margin_right = 20.0
 
-[node name="GuideScreen" type="Control" node_paths=PackedStringArray("brain", "type_dropdown", "description_label", "tooltip_container", "desc_container", "tab_container", "cursor")]
+[node name="GuideScreen" type="Control" node_paths=PackedStringArray("brain", "type_dropdown", "description_label", "tooltip_container", "desc_container", "tab_container", "worley_point_slider", "cursor")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,6 +46,8 @@ description_label = NodePath("RegionDescriptionOverlay/MarginContainer/ScrollCon
 tooltip_container = NodePath("TooltipContainer")
 desc_container = NodePath("RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper")
 tab_container = NodePath("ProjectWrapper/Sidebar/SidebarTabs")
+worley_point_slider = NodePath("ProjectWrapper/Sidebar/SidebarTabs/UISettings/WorleyPointsMargin/WorleyPoints/WorleyPointSlider")
+available_backgrounds = Array[Shader]([ExtResource("3_jp4p8"), ExtResource("3_m17o5")])
 cursor = NodePath("Sprite2D")
 metadata/_edit_horizontal_guides_ = []
 
@@ -48,11 +62,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-split_offset = 900
 
 [node name="BrainPanel" type="CenterContainer" parent="ProjectWrapper"]
 custom_minimum_size = Vector2(639, 0)
 layout_mode = 2
+
+[node name="BrainBGContainer" type="PanelContainer" parent="ProjectWrapper/BrainPanel"]
+custom_minimum_size = Vector2(900, 709.71)
+layout_mode = 2
+
+[node name="BrainBG" type="TextureRect" parent="ProjectWrapper/BrainPanel/BrainBGContainer" groups=["texture_rect"]]
+material = SubResource("ShaderMaterial_1h3v6")
+layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_bng88")
 
 [node name="Brain" parent="ProjectWrapper/BrainPanel" node_paths=PackedStringArray("state_chart") instance=ExtResource("2_4cqnl")]
 position = Vector2(475, 338)
@@ -81,15 +103,15 @@ layout_mode = 2
 
 [node name="BGColorMargin" type="MarginContainer" parent="ProjectWrapper/Sidebar/SidebarTabs/UISettings"]
 layout_mode = 2
-theme = ExtResource("7_r7cer")
+theme = ExtResource("7_uipiy")
 theme_type_variation = &"MenuItem"
 
-[node name="BGColor" type="HFlowContainer" parent="ProjectWrapper/Sidebar/SidebarTabs/UISettings/BGColorMargin"]
+[node name="BGColor" type="VBoxContainer" parent="ProjectWrapper/Sidebar/SidebarTabs/UISettings/BGColorMargin"]
 layout_mode = 2
 
 [node name="BGColorLabel" type="Label" parent="ProjectWrapper/Sidebar/SidebarTabs/UISettings/BGColorMargin/BGColor"]
 layout_mode = 2
-theme = ExtResource("7_r7cer")
+theme = ExtResource("7_uipiy")
 text = "Background Color: "
 
 [node name="BGColorButton" type="ColorPickerButton" parent="ProjectWrapper/Sidebar/SidebarTabs/UISettings/BGColorMargin/BGColor" groups=["menu_item"]]
@@ -97,6 +119,31 @@ custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0.694118, 0.694118, 0.694118, 1)
+
+[node name="WorleyPointsMargin" type="MarginContainer" parent="ProjectWrapper/Sidebar/SidebarTabs/UISettings"]
+layout_mode = 2
+theme = ExtResource("7_uipiy")
+theme_type_variation = &"MenuItem"
+
+[node name="WorleyPoints" type="VBoxContainer" parent="ProjectWrapper/Sidebar/SidebarTabs/UISettings/WorleyPointsMargin"]
+layout_mode = 2
+
+[node name="WorleyPointsLabel" type="Label" parent="ProjectWrapper/Sidebar/SidebarTabs/UISettings/WorleyPointsMargin/WorleyPoints"]
+layout_mode = 2
+theme = ExtResource("7_uipiy")
+text = "Worley Points: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WorleyPointSlider" type="HSlider" parent="ProjectWrapper/Sidebar/SidebarTabs/UISettings/WorleyPointsMargin/WorleyPoints" groups=["menu_item"]]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 10.0
+value = 1.0
+rounded = true
+tick_count = 10
 
 [node name="StateChartDebugger" parent="ProjectWrapper/Sidebar/SidebarTabs" instance=ExtResource("2_xjjh2")]
 visible = false
@@ -285,6 +332,7 @@ texture = ExtResource("10_q3rvt")
 [connection signal="brain_exited" from="ProjectWrapper/BrainPanel/Brain" to="." method="_on_brain_exited"]
 [connection signal="item_selected" from="ProjectWrapper/Sidebar/SidebarTabs/TypesOverview/Types" to="." method="_on_types_item_selected"]
 [connection signal="color_changed" from="ProjectWrapper/Sidebar/SidebarTabs/UISettings/BGColorMargin/BGColor/BGColorButton" to="UISettings" method="_on_bg_color_changed"]
+[connection signal="value_changed" from="ProjectWrapper/Sidebar/SidebarTabs/UISettings/WorleyPointsMargin/WorleyPoints/WorleyPointSlider" to="." method="_on_worley_point_num_changed"]
 [connection signal="ready" from="StateChart" to="." method="_on_state_chart_ready"]
 [connection signal="state_entered" from="StateChart/Root/Overlay/NoOverlay" to="." method="_on_unpause"]
 [connection signal="state_input" from="StateChart/Root/Overlay/NoOverlay" to="." method="_unpaused_input"]
