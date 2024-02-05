@@ -17,68 +17,68 @@ texture = ExtResource("2_75coh")
 
 [node name="Fp1" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(-51, -210)
-polygon = PackedVector2Array(49.4615, -50, 15.6154, -46.1538, -8.23077, -36.9231, -22.8462, -28.4615, -50.5385, -6.15384, -67.4615, 14.6154, -32.8462, 49.2308, 30, 37, 49.4615, 20.7692)
+polygon = PackedVector2Array(49.4615, -50, 16, -47, -8, -38, -23, -29, -50, -8, -69, 15, -32, 50, 30, 37, 49.4615, 20.7692)
 
 [node name="Fp2" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(51, -210)
-polygon = PackedVector2Array(-46.3846, -50, -12.5385, -46.1539, 11.3077, -36.9231, 25.9231, -28.4615, 53.6154, -6.92308, 72.8462, 16.1539, 36.6923, 46.9231, -26.3846, 38.4615, -46.3846, 20.7692)
+polygon = PackedVector2Array(-46.3846, -50, -12, -47, 12, -37, 26, -29, 54, -7, 72.8462, 16.1539, 36.6923, 46.9231, -26.3846, 38.4615, -47, 21)
 
 [node name="F7" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(-135, -122)
-polygon = PackedVector2Array(12.6923, -69.5385, -8.84613, -42.6154, -27.3077, -9.53847, -49.6154, 42.7692, 11.9231, 70.4615, 28.0769, 11.2308, 49, -35.3333)
+polygon = PackedVector2Array(12.6923, -69.5385, -9, -45, -29, -11, -50, 43, 11.9231, 70.4615, 28.0769, 11.2308, 49, -35.3333)
 polygons = [PackedInt32Array(0, 1, 5, 6), PackedInt32Array(1, 2, 3, 4, 5)]
 
 [node name="F8" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(137, -121)
-polygon = PackedVector2Array(-10.8461, -69, -47, -38.2308, -27.7692, 11, -9.30768, 73.3077, 50.6923, 44.0769, 36.8462, 7.92308, 9.9231, -42.8462)
+polygon = PackedVector2Array(-10, -70, -48, -38, -27.7692, 11, -10, 74, 50.6923, 44.0769, 38, 8, 26, -16, 10, -44)
 
 [node name="F3" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(-67, -107)
-polygon = PackedVector2Array(43.9231, -61.4615, -14.5385, -49.1538, -35.3077, -3.76921, -52.2308, 57, 29.6667, 57, 30.0769, 43.9231)
+polygon = PackedVector2Array(45, -62, -14.5385, -49.1538, -35.3077, -3.76921, -52.2308, 57, 29.6667, 57, 30.0769, 43.9231)
 
 [node name="F4" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(68, -105)
-polygon = PackedVector2Array(-41.0769, -61.1538, 16.6154, -53.4615, 35.8461, -4.99998, 55.0769, 58.8462, -24.1539, 58.8462, -24.9231, 45)
+polygon = PackedVector2Array(-42, -62, 17, -55, 37, -5, 55.0769, 58.8462, -24.1539, 58.8462, -24.9231, 45)
 
 [node name="T3" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(-170, -4)
-polygon = PackedVector2Array(-15.3846, -69.8461, -24.6154, -38.3077, -31.5385, 0.923096, -37.6923, 50.1539, -36.1538, 72.4616, 23.0769, 70.1539, 29.2308, 44, 45.3846, -42.923)
+polygon = PackedVector2Array(-16, -71, -24.6154, -38.3077, -32, 1, -37.6923, 50.1539, -36.1538, 72.4616, 23.0769, 70.1539, 29.2308, 44, 46, -43)
 
 [node name="T4" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(174, -4)
-polygon = PackedVector2Array(15.2308, -68.3077, -45.5385, -38.3077, -28.6154, 43.2308, -24, 70.9231, 34.4615, 72.4616, 36.7692, 50.9231, 30.6154, 0.15387, 23.6923, -39.8461)
+polygon = PackedVector2Array(15.2308, -68.3077, -46, -39, -28.6154, 43.2308, -25, 72, 34.4615, 72.4616, 36.7692, 50.9231, 30.6154, 0.15387, 23.6923, -39.8461)
 
 [node name="C3" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(-88, 0)
-polygon = PackedVector2Array(-32, -45.3846, -53.5385, 64.6154, 49, 32, 50.3077, -45.3846)
+polygon = PackedVector2Array(-32, -45.3846, -55, 66, 49, 32, 50.3077, -45.3846)
 
 [node name="C4" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(91, 2)
-polygon = PackedVector2Array(-47.1539, -43.5385, -47.9231, 25.6923, 53.6154, 63.3846, 32.8462, -43.5385)
+polygon = PackedVector2Array(-47.1539, -43.5385, -49, 26, 55, 65, 34, -44)
 
 [node name="T5" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(-168, 145)
-polygon = PackedVector2Array(-37.3847, -71.9231, -36.6154, -51.1538, -28.1539, -8.84613, -20.4616, 12.6923, -0.461609, 51.9231, 22.6153, 75.7693, 58.7692, 61.9231, 22.6153, -5.76923, 21.0769, -74.2308)
+polygon = PackedVector2Array(-37.3847, -71.9231, -36.6154, -51.1538, -29, -8, -20.4616, 12.6923, -13, 31, 3, 58, 22, 77, 58.7692, 61.9231, 24, -6, 21, -75)
 
 [node name="T6" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(168, 145)
-polygon = PackedVector2Array(-18.0001, -73.4615, 40.4615, -71.1538, 39.6923, -51.1538, 29.6923, -6.53845, 16.6154, 28.0769, -1.84619, 56.5385, -19.5385, 75.7693, -54.1539, 58.8462, -19.5385, -3.46152)
+polygon = PackedVector2Array(-18.0001, -73.4615, 41, -72, 41, -51, 31, -7, 17, 28, -1.84619, 56.5385, -19, 77, -55, 59, -19.5385, -3.46152)
 
 [node name="P3" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(-88, 120)
-polygon = PackedVector2Array(-54.3077, -50.7692, -52.7693, 16.9231, -17.3846, 85.3846, 64.9231, 63.0769, 44.9231, -8.46152, 48.7692, -83.0769)
+polygon = PackedVector2Array(-55, -51, -52.7693, 16.9231, -17.3846, 85.3846, 64.9231, 63.0769, 44.9231, -8.46152, 48.7692, -83.0769)
 
 [node name="P4" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(88, 120)
-polygon = PackedVector2Array(-45.6923, -86.9231, 57.3846, -49.2308, 55.8462, 20, 21.2308, 82.3077, -58, 60.7693, -39.5385, -5.38461)
+polygon = PackedVector2Array(-46, -88, 58, -50, 55.8462, 20, 21.2308, 82.3077, -58, 60.7693, -39.5385, -5.38461)
 
 [node name="O1" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(-55, 225)
-polygon = PackedVector2Array(34.2307, -37.3077, -51.9231, -14.2308, -87.3077, -0.384613, -67.3077, 15, -45.0001, 25.7692, -21.1539, 33.4615, 0.384552, 38.8462, 44.2307, 38.8462, 54.2307, 37.3077, 54.2307, -27.3077)
+polygon = PackedVector2Array(34, -38, -51.9231, -14.2308, -87.3077, -0.384613, -67.3077, 15, -45.0001, 25.7692, -21.1539, 33.4615, 0.384552, 38.8462, 44.2307, 38.8462, 54.2307, 37.3077, 54.2307, -27.3077)
 
 [node name="O2" type="Polygon2D" parent="BrainRegions"]
 position = Vector2(54, 225)
-polygon = PackedVector2Array(-49.3846, -27.3077, -27.0769, -40.3846, 58.3077, -16.5385, 90.6154, -0.384644, 72.9231, 14.2307, 25.2308, 32.6923, 2.9231, 37.3077, -40.1539, 38.8461, -49.3846, 36.5385)
+polygon = PackedVector2Array(-49.3846, -27.3077, -27.0769, -40.3846, 59, -17, 90.6154, -0.384644, 72.9231, 14.2307, 26, 33, 3, 38, -40, 39, -50, 38)
 
 [node name="BrainArea" type="Area2D" parent="BrainRegions"]
 
@@ -169,7 +169,7 @@ antialiased = true
 
 [node name="Row4" type="Line2D" parent="Borders/MidlineRight"]
 position = Vector2(-16, 362)
-points = PackedVector2Array(-128, -142, -94, -159, -7, -183)
+points = PackedVector2Array(-129.001, -141, -94, -159, -7, -183)
 width = 5.0
 default_color = Color(0, 0, 0, 1)
 antialiased = true

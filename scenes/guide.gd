@@ -6,6 +6,8 @@ signal typeSelected
 @onready var region_info: Dictionary
 
 @export var type_dropdown: OptionButton
+@export var type_list: ItemList
+
 @export var description_label: RichTextLabel
 @export var scale_factor: float = 1
 
@@ -38,13 +40,8 @@ signal typeSelected
 
 #Brain Background Rect
 @onready var brain_bg: CanvasItem
-@onready var worley_shader:ShaderMaterial
-@export var worley_point_slider:Slider
 # @export var change_amt = 1
 # @export var mod_limit = 1000
-@export var worley_point_max = 10
-@onready var worley_point_num = worley_point_slider.value
-@onready var last_worley_point_num = worley_point_num
 
 @export var available_backgrounds:Array[Shader]
 @onready var bg_index = 1
@@ -65,14 +62,6 @@ var timePassed = 0
 func get_random_point():
 	return Vector3(snapped(randf_range(0.1,0.9),0.1),snapped(randf_range(0.1,0.9),0.1),snapped(randf_range(0.1,0.9),0.1))
 
-# func update_worley_shader():
-# 	var worley_points:Array[Vector3] = []
-# 	for i in range(worley_point_num):
-# 		worley_points.append(get_random_point())
-# 	print(worley_points)
-# 	worley_shader.set_shader_parameter("worley_points",worley_points)
-# 	print(worley_shader.get_shader_parameter("worley_points"))
-
 
 func update_brain_bg(index):
 	# TODO: Set the current shader property of brain bg's material to the next shader in available_bgs array.
@@ -92,8 +81,7 @@ func _ready():
 	type_dropdown.add_item("None")
 	for type in brain.types:
 		type_dropdown.add_item(type)
-	# update_worley_shader()
-	
+		type_list.add_item(type)
 	_update_ui()
 	
 	
@@ -264,11 +252,4 @@ func _on_brain_exited():
 
 
 func _on_state_chart_ready():
-	
 	pass
-
-
-func _on_worley_point_num_changed(value):
-	worley_point_num = value
-	#update_worley_shader()
-	pass # Replace with function body.
