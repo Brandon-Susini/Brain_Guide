@@ -6,7 +6,6 @@ signal typeSelected
 @onready var region_info: Dictionary
 
 @export var type_dropdown: OptionButton
-@export var type_list: ItemList
 
 @export var description_label: RichTextLabel
 @export var scale_factor: float = 1
@@ -78,10 +77,8 @@ func _ready():
 	brain_bg = find_child("BrainBG")
 	#tab_container.set_tab_hidden(1,true)
 	region_overlay.visible = false
-	type_dropdown.add_item("None")
 	for type in brain.types:
 		type_dropdown.add_item(type)
-		type_list.add_item(type)
 	_update_ui()
 	
 	
@@ -197,8 +194,8 @@ func _paused_input(_event):
 		state_chart.send_event.call_deferred("to_none")
 
 
-func _on_types_item_selected(index):
-	emit_signal("typeSelected",type_dropdown.get_item_text(index))
+# func _on_types_item_selected(index):
+# 	emit_signal("type_selected",type_dropdown.get_item_text(index))
 	
 
 func _on_unpause():

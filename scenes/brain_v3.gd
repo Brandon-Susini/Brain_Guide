@@ -14,6 +14,7 @@ signal brain_exited
 
 # Array of all personality type names
 @onready var types = [
+	"None",
 	"NeTi",
 	"NeFi",
 	"FiSe",
@@ -273,7 +274,7 @@ func _ready():
 		current_region_activity[region.name] = 0
 	setup_polygon_offsets()
 	# Set all regions color to default
-	set_activity_by_type("")
+	set_activity_by_type("None")
 	print(current_region_activity)
 	#switch_type()
 
@@ -329,7 +330,7 @@ func set_region_activity(region,activity):
 	region.color = colors[activity]
 
 func set_activity_by_type(type):
-	if types.has(type):
+	if type != "None":
 		for i in range(len(intensity[type])):
 			for region in intensity[type][i]:
 				current_region_activity[region] = i
@@ -350,15 +351,6 @@ func get_region_info(region_name: String):
 	return region_info
 
 # Signal Events **********************************************************
-
-
-
-#Set the regions activity levels once a new type is selected.
-func _on_guide_screen_type_selected(typeSelected):
-	print("Type Selected:", typeSelected)
-	#resetRegionColors()
-	#setActivityByType(typeSelected)
-	pass # Replace with function body.
 
 
 # Listen for regions being clicked.
@@ -382,4 +374,11 @@ func _on_low_state_entered():
 
 func _on_brain_area_mouse_exited():
 	emit_signal("brain_exited")
+	pass # Replace with function body.
+
+
+func _on_types_item_selected(index:int):
+	print(index)
+	print("Type Selected: ", types[index])
+	set_activity_by_type(types[index])
 	pass # Replace with function body.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://blbbvgkdy81b0"]
+[gd_scene load_steps=16 format=3 uid="uid://blbbvgkdy81b0"]
 
 [ext_resource type="Script" path="res://scenes/guide.gd" id="1_141rj"]
 [ext_resource type="PackedScene" uid="uid://67dr4baog4w4" path="res://scenes/brain_v3.tscn" id="2_4cqnl"]
@@ -21,6 +21,15 @@ shader_parameter/electric_power = 4.0
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_bng88"]
 
+[sub_resource type="InputEventKey" id="InputEventKey_m2qh1"]
+device = -1
+shift_pressed = true
+keycode = 84
+unicode = 84
+
+[sub_resource type="Shortcut" id="Shortcut_ottyq"]
+events = [SubResource("InputEventKey_m2qh1")]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rfskh"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mu5s2"]
@@ -28,7 +37,7 @@ content_margin_left = 20.0
 content_margin_top = 20.0
 content_margin_right = 20.0
 
-[node name="GuideScreen" type="Control" node_paths=PackedStringArray("brain", "type_dropdown", "type_list", "description_label", "tooltip_container", "desc_container", "tab_container", "cursor")]
+[node name="GuideScreen" type="Control" node_paths=PackedStringArray("brain", "type_dropdown", "description_label", "tooltip_container", "desc_container", "tab_container", "cursor")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,7 +50,6 @@ mouse_filter = 1
 script = ExtResource("1_141rj")
 brain = NodePath("ProjectWrapper/BrainPanel/Brain")
 type_dropdown = NodePath("ProjectWrapper/Sidebar/SidebarTabs/TypesOverview/Types")
-type_list = NodePath("ProjectWrapper/Sidebar/SidebarTabs/TypesOverview/TypeList")
 description_label = NodePath("TooltipContainer/MarginContainer/SummaryTooltip")
 tooltip_container = NodePath("TooltipContainer")
 desc_container = NodePath("RegionDescriptionOverlay/MarginContainer/ScrollContainer/DescriptionWrapper")
@@ -94,10 +102,7 @@ layout_mode = 2
 [node name="Types" type="OptionButton" parent="ProjectWrapper/Sidebar/SidebarTabs/TypesOverview"]
 layout_mode = 2
 tooltip_text = "Choose one of 16 categorical types to view their recorded brain region activation patterns."
-
-[node name="TypeList" type="ItemList" parent="ProjectWrapper/Sidebar/SidebarTabs/TypesOverview"]
-layout_mode = 2
-auto_height = true
+shortcut = SubResource("Shortcut_ottyq")
 
 [node name="UISettings" type="VBoxContainer" parent="ProjectWrapper/Sidebar/SidebarTabs"]
 visible = false
@@ -312,7 +317,7 @@ texture = ExtResource("10_q3rvt")
 
 [connection signal="update_ui" from="UISettings" to="." method="_update_ui"]
 [connection signal="brain_exited" from="ProjectWrapper/BrainPanel/Brain" to="." method="_on_brain_exited"]
-[connection signal="item_selected" from="ProjectWrapper/Sidebar/SidebarTabs/TypesOverview/Types" to="." method="_on_types_item_selected"]
+[connection signal="item_selected" from="ProjectWrapper/Sidebar/SidebarTabs/TypesOverview/Types" to="ProjectWrapper/BrainPanel/Brain" method="_on_types_item_selected"]
 [connection signal="color_changed" from="ProjectWrapper/Sidebar/SidebarTabs/UISettings/BGColorMargin/BGColor/BGColorButton" to="UISettings" method="_on_bg_color_changed"]
 [connection signal="ready" from="StateChart" to="." method="_on_state_chart_ready"]
 [connection signal="state_entered" from="StateChart/Root/Overlay/NoOverlay" to="." method="_on_unpause"]
