@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://blbbvgkdy81b0"]
+[gd_scene load_steps=17 format=3 uid="uid://blbbvgkdy81b0"]
 
 [ext_resource type="Script" path="res://scenes/guide.gd" id="1_141rj"]
 [ext_resource type="PackedScene" uid="uid://67dr4baog4w4" path="res://scenes/brain_v3.tscn" id="2_4cqnl"]
@@ -20,6 +20,15 @@ shader_parameter/electric_speed = 1.0
 shader_parameter/electric_power = 4.0
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_bng88"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_of56u"]
+shader = ExtResource("3_jp4p8")
+shader_parameter/pixel_size = Vector2(0.001, 0.001)
+shader_parameter/voronoi_scale = 20.0
+shader_parameter/voronoi_seed = 0.0
+shader_parameter/electric_scale = 20.0
+shader_parameter/electric_speed = 1.0
+shader_parameter/electric_power = 3.0
 
 [sub_resource type="InputEventKey" id="InputEventKey_m2qh1"]
 device = -1
@@ -78,9 +87,14 @@ custom_minimum_size = Vector2(900, 709.71)
 layout_mode = 2
 
 [node name="BrainBG" type="TextureRect" parent="ProjectWrapper/BrainPanel/BrainBGContainer" groups=["texture_rect"]]
+visible = false
 material = SubResource("ShaderMaterial_1h3v6")
 layout_mode = 2
 texture = SubResource("PlaceholderTexture2D_bng88")
+
+[node name="BrainColorBG" type="ColorRect" parent="ProjectWrapper/BrainPanel/BrainBGContainer"]
+material = SubResource("ShaderMaterial_of56u")
+layout_mode = 2
 
 [node name="Brain" parent="ProjectWrapper/BrainPanel" node_paths=PackedStringArray("state_chart") instance=ExtResource("2_4cqnl")]
 position = Vector2(475, 338)

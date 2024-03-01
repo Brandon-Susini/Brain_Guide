@@ -38,7 +38,8 @@ signal typeSelected
 @export var tab_container:TabContainer
 
 #Brain Background Rect
-@onready var brain_bg: CanvasItem
+#@onready var brain_bg: CanvasItem # Depreciated, may be able to use color rect instead for more options.
+@onready var brain_color_rect: CanvasItem
 # @export var change_amt = 1
 # @export var mod_limit = 1000
 
@@ -61,10 +62,10 @@ var timePassed = 0
 func get_random_point():
 	return Vector3(snapped(randf_range(0.1,0.9),0.1),snapped(randf_range(0.1,0.9),0.1),snapped(randf_range(0.1,0.9),0.1))
 
-
+# Function Depreciated
 func update_brain_bg(index):
 	# TODO: Set the current shader property of brain bg's material to the next shader in available_bgs array.
-	brain_bg.material.shader = available_backgrounds[index]
+	#brain_bg.material.shader = available_backgrounds[index]
 	pass
 
 func _update_ui():
@@ -74,7 +75,9 @@ func _update_ui():
 
 
 func _ready():
-	brain_bg = find_child("BrainBG")
+	#brain_bg = find_child("BrainBG")
+	brain_color_rect = find_child("BrainColorBG")
+	# brain_color_rect.use_parent_material = true # Use this code to show static color instead of shader.
 	#tab_container.set_tab_hidden(1,true)
 	region_overlay.visible = false
 	for type in brain.types:
@@ -98,10 +101,10 @@ func set_region_info(hovered_region: Polygon2D):
 	region_info = brain.get_region_info(hovered_region.name)
 
 
-func update_tooltip(hover_info):
+func update_tooltip(local_hover_info):
 	tooltip_node.text = ""
 	tooltip_container.size = Vector2.ZERO
-	set_region_info(hover_info[1])
+	set_region_info(local_hover_info[1])
 	var text = "[b]" + region_info["name"] + "[/b]\n-------[ul]\n"
 	for line in region_info["summary"]:
 		text += line + "\n"
@@ -131,6 +134,8 @@ func _check_mouse_move():
 	else:
 		if(tooltip_container.visible):
 			hide_tooltip()
+
+
 # NOTE: Anything that should happen every tick no matter what the state goes here.
 
 func _process(delta):
@@ -142,7 +147,7 @@ func _process(delta):
 	
 
 # State Processing Functions
-# NOTE: Anything that should only happen every tick depending on state goes here.
+# NOTE: Anything that depends on state goes here and happens every tick goes here.
 
 func _unpaused_process(_delta):
 	# var o = brain_bg.texture.noise.offset

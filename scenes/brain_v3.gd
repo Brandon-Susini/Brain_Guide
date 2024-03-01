@@ -240,7 +240,7 @@ var colors = [
 	Color(0,255,0,1),
 	Color(247,225,0),
 	Color(255,0,0,1),
-	Color(255, 0, 255,1),
+	Color.PURPLE,
 	Color(255,255,255,1)
 ]
 # Dictionaries to translate color indexes from numbers to strings or strings to numbers.
@@ -255,9 +255,6 @@ var restoreColor: Color = colors[5]
 @export var state_chart: StateChart
 
 
-
-
-#TODO: Remove collision shapes since the signals don't work correctly.
 
 
 # Start of functions  **********************************************************
@@ -275,7 +272,6 @@ func _ready():
 	setup_polygon_offsets()
 	# Set all regions color to default
 	set_activity_by_type("None")
-	print(current_region_activity)
 	#switch_type()
 
 func _draw():
@@ -289,11 +285,22 @@ func setup_regions():
 
 
 func _process(_delta):
+	# Get an up to date status on current hover.
 	hovered = handle_region_hover()
-	
-	regions.map(func(r): r.color = colors[current_region_activity[r.name]])
-	if hovered[0]:
-		hovered[1].color = Color.PURPLE
+	# If no region is hovered, scan all regions and update the ones whose color doesn't match their
+	# current desired activity level.
+	if not hovered[0]:
+		var regions_to_update = regions.filter(func(r): return (r.color != colors[current_region_activity[r.name]]))
+		if regions_to_update:
+			#print("at least one region to update")
+			# print(regions_to_update)
+			regions_to_update.map(func(r): r.color = colors[current_region_activity[r.name]])
+	else:
+		# Otherwise if a region is hovered, scan the regions which are colored for the hover
+		# but are not the currently hovered region anymore and update them.
+		hovered[1].color = colors[4]
+		var regions_to_update = regions.filter(func(r): return (r.color == colors[4] and r.name != hovered[1].name))
+		regions_to_update.map(func(r): r.color = colors[current_region_activity[r.name]])
 	pass
 
 func switch_type():
