@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/guide.gd" id="1_141rj"]
 [ext_resource type="PackedScene" uid="uid://67dr4baog4w4" path="res://scenes/brain_v3.tscn" id="2_4cqnl"]
-[ext_resource type="Script" path="res://ui_settings.gd" id="2_g4idk"]
+[ext_resource type="Script" path="res://scenes/ui_settings.gd" id="2_ujt77"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_xjjh2"]
 [ext_resource type="Shader" path="res://scenes/synapse.gdshader" id="3_jp4p8"]
 [ext_resource type="Theme" uid="uid://liy8to6hk6nj" path="res://tooltip_theme.tres" id="4_qldme"]
@@ -67,7 +67,7 @@ cursor = NodePath("Sprite2D")
 metadata/_edit_horizontal_guides_ = []
 
 [node name="UISettings" type="Node" parent="." node_paths=PackedStringArray("menu_items")]
-script = ExtResource("2_g4idk")
+script = ExtResource("2_ujt77")
 menu_items = [NodePath("../ProjectWrapper/Sidebar/SidebarTabs/UISettings/BGColorMargin/BGColor/BGColorButton")]
 
 [node name="ProjectWrapper" type="HSplitContainer" parent="."]
@@ -93,6 +93,7 @@ layout_mode = 2
 texture = SubResource("PlaceholderTexture2D_bng88")
 
 [node name="BrainColorBG" type="ColorRect" parent="ProjectWrapper/BrainPanel/BrainBGContainer"]
+visible = false
 material = SubResource("ShaderMaterial_of56u")
 layout_mode = 2
 

@@ -169,7 +169,7 @@ func _unpaused_input(_event):
 		return
 	if Input.is_action_just_pressed("option"):
 		print("option")
-		update_brain_bg(1)
+		#update_brain_bg(1)
 	if brain.is_mouse_in_brain_area():
 		if(Input.is_action_just_pressed("select")):
 			hover_info = brain.handle_region_hover()

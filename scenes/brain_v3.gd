@@ -272,6 +272,7 @@ func _ready():
 	setup_polygon_offsets()
 	# Set all regions color to default
 	set_activity_by_type("None")
+	get_region_by_name("Fp1")
 	#switch_type()
 
 func _draw():
@@ -290,7 +291,9 @@ func _process(_delta):
 	# If no region is hovered, scan all regions and update the ones whose color doesn't match their
 	# current desired activity level.
 	if not hovered[0]:
+		# Get a list of regions that need to be updated
 		var regions_to_update = regions.filter(func(r): return (r.color != colors[current_region_activity[r.name]]))
+		# If the length > 0 then update the regions' activities.
 		if regions_to_update:
 			#print("at least one region to update")
 			# print(regions_to_update)
@@ -327,7 +330,7 @@ func handle_region_hover():
 	else:
 		return [false,null]
 
-
+# Returns true if the mouse is inside of the brain outline, false otherwise.
 func is_mouse_in_brain_area():
 	return Geometry2D.is_point_in_polygon(get_global_mouse_position(),brain_area_offset)
 		
@@ -346,8 +349,8 @@ func set_activity_by_type(type):
 
 # Getters =========================================================================================
 
-func get_region_by_name(name):
-	return regions.filter(func(r): return r.name == name)[0]
+func get_region_by_name(region_name):
+	return regions.filter(func(r): return r.name == region_name)[0]
 
 func get_region_info(region_name: String):
 	var region_info = {
@@ -371,12 +374,6 @@ func _on_regions_area_input_event(_viewport, _event, _shape_idx):
 		# 	if Geometry2D.is_point_in_polygon(get_global_mouse_position(),region_offsets[region.name]):
 		# 		region.color = Color.PURPLE
 	pass
-
-
-
-func _on_low_state_entered():
-
-	pass # Replace with function body.
 
 
 func _on_brain_area_mouse_exited():
